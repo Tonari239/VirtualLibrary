@@ -1,5 +1,5 @@
-#ifndef __Book
-#define __Book
+#ifndef __Book_H
+#define __Book_H
 
 #include <iostream>
 using namespace std;
@@ -16,12 +16,13 @@ enum Rating
 
 class Book
 {
+	static int count;
 	char* mAuthor;
 	char* mTitle;
 	char* mFileName;
 	char* mDescription;
 	Rating mRating;
-	int mISBN;
+	unsigned mISBN; //ISBN should be 10 digits long and unique
 	void copy(const Book& other);
 	void free();
 public:
@@ -30,7 +31,7 @@ public:
 	char* getFileName() const;
 	char* getDescription() const;
 	Rating getRating() const;
-	int getISBN() const;
+	unsigned getISBN() const;
 
 	void setAuthor(char* author);
 	void setTitle(char* title);
@@ -40,6 +41,7 @@ public:
 	void setISBN(int isbn);
 
 	//constructors and big four
+	Book();
 	Book(char* author, char* title, char* fileName, char* description);  //TODO: check how to make unique ISBN
 	Book(char* author, char* title, char* fileName, char* description, Rating rating);
 	Book(const Book& other);

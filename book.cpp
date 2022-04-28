@@ -1,6 +1,7 @@
 #include "book.h"
 #include "usefulFunctions.h"
 
+int Book::count = 0;
 char* Book::getAuthor() const
 {
 	return mAuthor;
@@ -21,7 +22,7 @@ Rating Book::getRating() const
 {
 	return mRating;
 }
-int Book::getISBN() const
+unsigned Book::getISBN() const
 {
 	return mISBN;
 }
@@ -58,6 +59,7 @@ void Book::free()
 	delete[] mTitle;
 	delete[] mFileName;
 	delete[] mDescription;
+	
 }
 void Book::copy(const Book& other)
 {
@@ -69,18 +71,25 @@ void Book::copy(const Book& other)
 	setISBN(other.getISBN());
 
 }
+Book::Book() :mAuthor(nullptr), mTitle(nullptr), mFileName(nullptr), mDescription(nullptr),mRating(Rating::UNRATED)
+{
+	++count;
+	setISBN(count);
+}
 Book::Book(char* author, char* title, char* fileName, char* description) :mAuthor(author), mTitle(title), mFileName(fileName), mDescription(description), mRating(Rating::UNRATED)  
 {
-	//TODO: check how to make unique ISBN
+	++count;
+	setISBN(count);
 }
 Book::Book(char* author, char* title, char* fileName, char* description, Rating rating)
 {
+	++count;
 	setAuthor(author);
 	setTitle(title);
 	setFileName(fileName);
 	setDescription(description);
 	setRating(rating);
-	//TODO: check how to make unique ISBN
+	setISBN(count);
 }
 Book::Book(const Book& other)
 {
@@ -88,7 +97,8 @@ Book::Book(const Book& other)
 }
 Book::~Book()
 {
-	free();
+	free(); 
+	--count;
 }
 Book& Book::operator=(const Book& other)
 {
