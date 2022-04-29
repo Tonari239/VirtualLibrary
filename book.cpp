@@ -59,7 +59,6 @@ void Book::free()
 	delete[] mTitle;
 	delete[] mFileName;
 	delete[] mDescription;
-	
 }
 void Book::copy(const Book& other)
 {
@@ -69,7 +68,6 @@ void Book::copy(const Book& other)
 	setDescription(other.getDescription());
 	setRating(other.getRating());
 	setISBN(other.getISBN());
-
 }
 Book::Book() :mAuthor(nullptr), mTitle(nullptr), mFileName(nullptr), mDescription(nullptr),mRating(Rating::UNRATED)
 {
@@ -81,7 +79,7 @@ Book::Book(char* author, char* title, char* fileName, char* description) :mAutho
 	++count;
 	setISBN(count);
 }
-Book::Book(const char* author, const char* title, const char* fileName, const char* description)
+Book::Book(const char* author, const char* title, const char* fileName, const char* description) :mRating(Rating::UNRATED)
 {
 	++count;
 	setAuthor((char*)author);
@@ -128,20 +126,22 @@ Book& Book::operator=(const Book& other)
 	}
 	return *this;
 }
-ostream& operator<<(ostream& out, Book& book)
+ostream& operator<<(ostream& out,const Book& book)
 {
-	//file
 	int authorLength = strlen(book.getAuthor());
+	out << authorLength;
+	out.write(book.getAuthor(), authorLength);
 	int titleLength = strlen(book.getTitle());
+	out << titleLength;
+	out.write(book.getTitle(), titleLength);
 	int descriptionLength = strlen(book.getDescription());
+	out << descriptionLength;
+	out.write(book.getDescription(), descriptionLength);
+	out << book.getISBN();
+	out << book.getRating();
 	return out;
 }
 void Book::print()
 {
-	cout << "_______________\n";
-	cout << "ISBN: " << this->getISBN() << endl;
-	cout << "Author: " << this->getAuthor() <<endl;
-	cout << "Title: " << this->getTitle() <<endl;
-	cout << "Description: " << this->getDescription() << endl;
-	cout << "Rating: " << this->getRating() << endl;
+	cout << getTitle() << ", " << getAuthor() << ", " << getISBN() << endl;
 }

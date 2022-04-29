@@ -23,6 +23,7 @@ class Book
 	char* mDescription;
 	Rating mRating;
 	unsigned mISBN; //ISBN should be 10 digits long and unique
+
 	void copy(const Book& other);
 	void free();
 public:
@@ -48,7 +49,7 @@ public:
 	Book(const Book& other);
 	~Book();
 	Book& operator=(const Book& other);
-	friend ostream& operator<<(ostream& out, Book& book);
+	friend ostream& operator<<(ostream& out,const Book& book);
 	void print();
 
 

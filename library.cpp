@@ -1,5 +1,9 @@
 #include "library.h"
 #include "usefulFunctions.h"
+#include <fstream>
+#include <iostream>
+#include "usefulFunctions.cpp"
+using namespace std;
 
 void Library::copy(const Library& other)
 {
@@ -34,6 +38,7 @@ void Library::resize()
 		mBooks = newArr;
 	}
 }
+
 Library::Library()
 {
 	mCapacity = START_CAPACITY;
@@ -48,6 +53,7 @@ Library::~Library()
 {
 	for (int i = 0; i < mCount; i++)
 	{
+		remove((*mBooks[i]).getFileName());
 		delete mBooks[i];
 	}
 	delete[] mBooks;
@@ -65,36 +71,21 @@ Book** Library::getBooks() const
 {
 	return mBooks;
 }
+
 void Library::Sort()
 {
-	int predicateResult =sortPredicate(); // 1->Author; 2->Title; 3->Rating
-	for (int j = 1; j < mCount; j++)
+	int predicateResult = sortPredicate(); // 1->Author; 2->Title; 3->Rating
+	if (predicateResult == 1)
 	{
-		for (int i = 0; i < mCount; i++)
-		{
-			if (predicateResult == 1)
-			{
-				if (strcmp((*mBooks[i]).getAuthor(), (*mBooks[j]).getAuthor()) > 0)
-				{
-					swap(mBooks[j], mBooks[i]);
-				}
-			}
-			else if (predicateResult == 2)
-			{
-				if (strcmp((*mBooks[i]).getTitle(), (*mBooks[j]).getTitle()) > 0)
-				{
-					swap(mBooks[j], mBooks[i]);
-				}
-			}
-			else
-			{
-				if ((*mBooks[i]).getRating()< (*mBooks[j]).getRating())
-				{
-					swap(mBooks[j], mBooks[i]);
-				}
-			}
-			
-		}
+		sortByAuthor();
+	}
+	else if (predicateResult == 2)
+	{
+		sortByTitle();
+	}
+	else
+	{
+		sortByRating();
 	}
 	print();
 }
@@ -102,7 +93,13 @@ void Library::addBook(const Book& bookToAdd)
 {
 	resize();
 	mBooks[mCount] = new Book(bookToAdd);
+	ofstream outputFile(bookToAdd.getFileName());
+	if (outputFile)
+	{
+		outputFile << bookToAdd;
+	}
 	++mCount;
+	outputFile.close();
 }
 void Library::removeBook(Book bookToRemove)
 {
@@ -140,4 +137,59 @@ void Library::print()
 	}
 }
 
+void Library::sortByTitle() // 1-> ascending 0 -> descending
+{
+	int mode = sortPredicateAscension();
+	for (int j = 1; j < mCount; j++)
+	{
+		for (int i = 0; i < mCount; i++)
+		{
+			if (mode && strcmp((*mBooks[i]).getTitle(), (*mBooks[j]).getTitle()) > 0)
+			{
+				swap(mBooks[j], mBooks[i]);
+			}
+			else if (!mode && strcmp((*mBooks[i]).getTitle(), (*mBooks[j]).getTitle()) < 0)
+			{
+				swap(mBooks[j], mBooks[i]);
+			}
+		}
+	}
+}
+void Library::sortByAuthor()
+{
+	int mode = sortPredicateAscension();
+	for (int j = 1; j < mCount; j++)
+	{
+		for (int i = 0; i < mCount; i++)
+		{
+			if (mode && strcmp((*mBooks[i]).getAuthor(), (*mBooks[j]).getAuthor()) > 0)
+			{
+				swap(mBooks[j], mBooks[i]);
+			}
+			else if (!mode && strcmp((*mBooks[i]).getAuthor(), (*mBooks[j]).getAuthor()) < 0)
+			{
+				swap(mBooks[j], mBooks[i]);
+			}
+		}
+	}
 
+}
+void Library::sortByRating()
+{
+	int mode = sortPredicateAscension();
+	for (int j = 1; j < mCount; j++)
+	{
+		for (int i = 0; i < mCount; i++)
+		{
+			if (mode && (*mBooks[i]).getRating() < (*mBooks[j]).getRating())
+			{
+				swap(mBooks[j], mBooks[i]);
+			}
+			else if (!mode && (*mBooks[i]).getRating() > (*mBooks[j]).getRating())
+			{
+				swap(mBooks[j], mBooks[i]);
+			}
+		}
+	}
+
+}
