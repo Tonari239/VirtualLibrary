@@ -40,15 +40,16 @@ public:
 	void setRating(Rating rating);
 	void setISBN(int isbn);
 
-	//constructors and big four
 	Book();
-	Book(char* author, char* title, char* fileName, char* description);  //TODO: check how to make unique ISBN
+	Book(char* author, char* title, char* fileName, char* description);  
 	Book(char* author, char* title, char* fileName, char* description, Rating rating);
+	Book(const char* author, const char* title, const char* fileName, const char* description);
+	Book(const char* author, const char* title, const char* fileName, const char* description, Rating rating);
 	Book(const Book& other);
 	~Book();
 	Book& operator=(const Book& other);
 	friend ostream& operator<<(ostream& out, Book& book);
-
+	void print();
 
 
 

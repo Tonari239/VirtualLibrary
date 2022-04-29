@@ -18,7 +18,7 @@ void Library::free()
 }
 void Library::resize()
 {
-	if (mCount + 1 >= 3 / 4 * mCapacity)
+	if (mCount >=3.0/4*mCapacity)
 	{
 		mCapacity *= 2;
 		Book* newArr = new Book[mCapacity];
@@ -59,7 +59,6 @@ Book* Library::getBooks() const
 }
 void Library::Sort()
 {
-	
 	int predicateResult =sortPredicate(); // 1->Author; 2->Title; 3->Rating
 	for (int j = 0; j < mCount; j++)
 	{
@@ -89,8 +88,9 @@ void Library::Sort()
 			
 		}
 	}
+	print();
 }
-void Library::addBook(Book bookToAdd)
+void Library::addBook(const Book& bookToAdd)
 {
 	resize();
 	mBooks[mCount] = bookToAdd;
@@ -122,6 +122,13 @@ void Library::removeBook(Book bookToRemove)
 	if (input == 'Y')
 	{
 		remove(bookToRemove.getFileName());
+	}
+}
+void Library::print()
+{
+	for (int i = 0; i < mCount; i++)
+	{
+		mBooks[i].print();
 	}
 }
 

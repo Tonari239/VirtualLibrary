@@ -11,6 +11,7 @@ class Library
 	void copy(const Library& other);
 	void free();
 	void resize(); 
+	void print();
 public:
 	Library();
 	Library(const Library& other);
@@ -18,7 +19,7 @@ public:
 	Library& operator=(const Library& other);
 	Book* getBooks() const;
 	void Sort();
-	void addBook(Book bookToAdd);
+	void addBook(const Book& bookToAdd);
 	void removeBook(Book bookToRemove);
 };
 #endif

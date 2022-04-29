@@ -81,6 +81,25 @@ Book::Book(char* author, char* title, char* fileName, char* description) :mAutho
 	++count;
 	setISBN(count);
 }
+Book::Book(const char* author, const char* title, const char* fileName, const char* description)
+{
+	++count;
+	setAuthor((char*)author);
+	setTitle((char*)title);
+	setFileName((char*)fileName);
+	setDescription((char*)description);
+	setISBN(count);
+}
+Book::Book(const char* author, const char* title, const char* fileName, const char* description,Rating rating)
+{
+	++count;
+	setAuthor((char*)author);
+	setTitle((char*)title);
+	setFileName((char*)fileName);
+	setDescription((char*)description);
+	setRating(rating);
+	setISBN(count);
+}
 Book::Book(char* author, char* title, char* fileName, char* description, Rating rating)
 {
 	++count;
@@ -111,5 +130,17 @@ Book& Book::operator=(const Book& other)
 }
 ostream& operator<<(ostream& out, Book& book)
 {
-	//TODO: implement
+	//file
+	int authorLength = strlen(book.getAuthor());
+	int titleLength = strlen(book.getTitle());
+	int descriptionLength = strlen(book.getDescription());
+	return out;
+}
+void Book::print()
+{
+	cout << "ISBN: " << this->getISBN() << endl;
+	cout << "Author: " << this->getAuthor() <<endl;
+	cout << "Title: " << this->getTitle() <<endl;
+	cout << "Description: " << this->getDescription() << endl;
+	cout << "Rating: " << this->getRating() << endl;
 }
