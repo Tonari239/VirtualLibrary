@@ -7,6 +7,7 @@ using namespace std;
 
 void copyString(char*& destination, char*& source);
 
-int sortPredicate();
+int sortPredicate(); 
+bool sortPredicateAscension();
 
 #endif

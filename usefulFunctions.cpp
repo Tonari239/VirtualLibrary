@@ -1,6 +1,6 @@
 #include "usefulFunctions.h"
 
-void copyString(char*& source,char*& destination)
+void copyString(char*& destination,char*& source)
 {
 	int length = strlen(source) + 1;
 	delete[] destination;
@@ -33,4 +33,20 @@ int sortPredicate()
 		return 3;
 	}
 	delete[] criterium;
+}
+bool sortPredicateAscension()
+{
+	cout << "What second criterium would you like to sort by?\n 1.Ascending 2.Descending\n";
+	char input[MAXLENGTH];
+	char* criterium;
+	do
+	{
+		cin.getline(input, MAXLENGTH);
+		int length = strlen(input) + 1;
+		criterium = new char[length];
+		strcpy(criterium, input);
+
+	} while (strcmp(criterium, "Ascending") != 0 && strcmp(criterium, "Descending") != 0);
+	return strcmp(criterium, "Ascending") == 0;
+
 }
