@@ -5,7 +5,7 @@
 #define START_CAPACITY 4
 class Library
 {
-	Book* mBooks;
+	Book** mBooks;
 	int mCount;
 	int mCapacity;
 	void copy(const Library& other);
@@ -17,7 +17,7 @@ public:
 	Library(const Library& other);
 	~Library();
 	Library& operator=(const Library& other);
-	Book* getBooks() const;
+	Book** getBooks() const;
 	void Sort();
 	void addBook(const Book& bookToAdd);
 	void removeBook(Book bookToRemove);

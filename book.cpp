@@ -138,6 +138,7 @@ ostream& operator<<(ostream& out, Book& book)
 }
 void Book::print()
 {
+	cout << "_______________\n";
 	cout << "ISBN: " << this->getISBN() << endl;
 	cout << "Author: " << this->getAuthor() <<endl;
 	cout << "Title: " << this->getTitle() <<endl;

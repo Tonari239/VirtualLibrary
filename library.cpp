@@ -5,10 +5,10 @@ void Library::copy(const Library& other)
 {
 	mCount = other.mCount;
 	mCapacity = other.mCapacity;
-	mBooks = new Book[mCapacity];
+	mBooks = new Book*[mCapacity];
 	for (int i = 0; i < mCount; i++)
 	{
-		mBooks[i] = other.mBooks[i];
+		mBooks[i] = new Book(*(other.mBooks[i]));
 	}
 	
 }
@@ -21,10 +21,14 @@ void Library::resize()
 	if (mCount >=3.0/4*mCapacity)
 	{
 		mCapacity *= 2;
-		Book* newArr = new Book[mCapacity];
+		Book** newArr = new Book*[mCapacity];
 		for (int i = 0; i < mCount; i++)
 		{
-			newArr[i] = mBooks[i];
+			newArr[i] = new Book(*mBooks[i]);
+		}
+		for (int i = 0; i < mCount; i++)
+		{
+			delete mBooks[i];
 		}
 		delete[] mBooks;
 		mBooks = newArr;
@@ -34,7 +38,7 @@ Library::Library()
 {
 	mCapacity = START_CAPACITY;
 	mCount = 0;
-	mBooks = new Book[mCapacity];
+	mBooks = new Book*[mCapacity];
 }
 Library::Library(const Library& other)
 {
@@ -42,6 +46,10 @@ Library::Library(const Library& other)
 }
 Library::~Library()
 {
+	for (int i = 0; i < mCount; i++)
+	{
+		delete mBooks[i];
+	}
 	delete[] mBooks;
 }
 Library& Library::operator=(const Library& other)
@@ -53,34 +61,34 @@ Library& Library::operator=(const Library& other)
 	}
 	return *this;
 }
-Book* Library::getBooks() const
+Book** Library::getBooks() const
 {
 	return mBooks;
 }
 void Library::Sort()
 {
 	int predicateResult =sortPredicate(); // 1->Author; 2->Title; 3->Rating
-	for (int j = 0; j < mCount; j++)
+	for (int j = 1; j < mCount; j++)
 	{
-		for (int i = 1; i < mCount; i++)
+		for (int i = 0; i < mCount; i++)
 		{
 			if (predicateResult == 1)
 			{
-				if (strcmp(mBooks[j].getAuthor(), mBooks[i].getAuthor()) > 0)
+				if (strcmp((*mBooks[i]).getAuthor(), (*mBooks[j]).getAuthor()) > 0)
 				{
 					swap(mBooks[j], mBooks[i]);
 				}
 			}
 			else if (predicateResult == 2)
 			{
-				if (strcmp(mBooks[j].getTitle(), mBooks[i].getTitle()) > 0)
+				if (strcmp((*mBooks[i]).getTitle(), (*mBooks[j]).getTitle()) > 0)
 				{
 					swap(mBooks[j], mBooks[i]);
 				}
 			}
 			else
 			{
-				if (mBooks[j].getRating()< mBooks[i].getRating())
+				if ((*mBooks[i]).getRating()< (*mBooks[j]).getRating())
 				{
 					swap(mBooks[j], mBooks[i]);
 				}
@@ -93,7 +101,7 @@ void Library::Sort()
 void Library::addBook(const Book& bookToAdd)
 {
 	resize();
-	mBooks[mCount] = bookToAdd;
+	mBooks[mCount] = new Book(bookToAdd);
 	++mCount;
 }
 void Library::removeBook(Book bookToRemove)
@@ -101,7 +109,7 @@ void Library::removeBook(Book bookToRemove)
 	int removeIndex = 0;
 	for (int i = 0; i < mCount; i++)
 	{
-		if (strcmp(mBooks[i].getTitle(), bookToRemove.getTitle()) == 0)
+		if (strcmp((*mBooks[i]).getTitle(), bookToRemove.getTitle()) == 0)
 		{
 			removeIndex = i;
 		}
@@ -128,7 +136,7 @@ void Library::print()
 {
 	for (int i = 0; i < mCount; i++)
 	{
-		mBooks[i].print();
+		(*mBooks[i]).print();
 	}
 }
 
