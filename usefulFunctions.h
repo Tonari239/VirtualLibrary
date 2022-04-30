@@ -7,6 +7,7 @@ using namespace std;
 
 void copyString(char*& destination, char*& source);
 int sortPredicate(); 
+int findPredicate();
 bool sortPredicateAscension();
 bool validateCriterion(char* inputCriterion, const char** criteriaToCheck, int criteriaCount);
 char* criterionInput(const char** criteriaToCheck, int criteriaCount);
