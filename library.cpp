@@ -77,11 +77,11 @@ void Library::Sort()
 	int predicateResult = sortPredicate(); // 1->Author; 2->Title; 3->Rating
 	if (predicateResult == 1)
 	{
-		sortByAuthor();
+		sortByTitle();
 	}
 	else if (predicateResult == 2)
 	{
-		sortByTitle();
+		sortByAuthor();
 	}
 	else
 	{
@@ -111,15 +111,16 @@ void Library::removeBook(Book bookToRemove)
 			removeIndex = i;
 		}
 	}
-	for (int i = removeIndex+1; i < mCount; i++)
+	delete mBooks[removeIndex];
+	for (int i = removeIndex; i < mCount; i++)
 	{
-		mBooks[i - 1] = mBooks[i];
+		mBooks[i] = mBooks[i+1];
 	}
 	--mCount;
 	cout << "Would you like to delete file associated with the book? \nY/N\n";
 	char input;
 	cin >> input;
-	while(input != 'y' && input != 'n' && input != 'Y')
+	while(input != 'Y' && input != 'N')
 	{
 		cout << "Wrong input!Press Y/N";
 		cin >> input;
@@ -192,4 +193,74 @@ void Library::sortByRating()
 		}
 	}
 
+}
+
+int Library::findByTitle(char* input) const
+{
+	for (int i = 0; i < mCount; i++)
+	{
+		if (strcmp((*mBooks[i]).getTitle(), input) == 0)
+		{
+			return i;
+		}
+	}
+}
+int Library::findByAuthor(char* input) const
+{
+	for (int i = 0; i < mCount; i++)
+	{
+		if (strcmp((*mBooks[i]).getAuthor(), input) == 0)
+		{
+			return i;
+		}
+	}
+}
+int Library::findByISBN(char* input) const
+{
+	for (int i = 0; i < mCount; i++)
+	{
+		if ((*mBooks[i]).getISBN()==atoi(input))
+		{
+			return i;
+		}
+	}
+
+}
+int Library::findByDescription(char* input) const
+{
+	for (int i = 0; i < mCount; i++)
+	{
+		if (strstr((*mBooks[i]).getDescription(), input) !=nullptr)
+		{
+			return i;
+		}
+	}
+
+}
+void Library::displayBook(const Book& book) const
+{
+
+}
+Book& Library::findBy(char* input) const
+{
+	int criterium = findPredicate();
+	int bookIndex=1;
+	if (criterium == 1)
+	{
+		findByTitle(input);
+	}
+	else if (criterium == 2)
+	{
+		findByAuthor(input);
+	}
+	else if (criterium==3)
+	{
+		findByISBN(input);
+	}
+	else
+	{
+		findByDescription(input);
+	}
+	(*mBooks[bookIndex]).print();
+	return *mBooks[bookIndex];
 }
