@@ -11,5 +11,6 @@ int findPredicate();
 bool sortPredicateAscension();
 bool validateCriterion(char* inputCriterion, const char** criteriaToCheck, int criteriaCount);
 char* criterionInput(const char** criteriaToCheck, int criteriaCount);
-
+void readByPages(ostream& file);
+void readBySentences(ostream& file);
 #endif

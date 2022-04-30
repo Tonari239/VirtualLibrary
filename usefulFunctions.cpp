@@ -1,4 +1,9 @@
 #include "usefulFunctions.h"
+#include <fstream>
+#include <iostream>
+using namespace std;
+
+const int MAX_SIZE = 1024;
 
 void copyString(char*& destination,char*& source)
 {
@@ -9,7 +14,7 @@ void copyString(char*& destination,char*& source)
 }
 int sortPredicate()
 {
-	cout << "What criterium would you like to sort by?\n 1.Author 2.Title 3.Rating\n";
+	cout << "What criterion would you like to sort by?\n 1.Author 2.Title 3.Rating\n";
 	const char* criteria[] = { "Title","Author","Rating"};
 	char* criterion = criterionInput(criteria, 3);
 	
@@ -31,7 +36,7 @@ int sortPredicate()
 }
 int findPredicate()
 {
-	cout << "What criterium would you like to search by?\n 1.Title 2.Author 3.ISBN 4.Description\n";
+	cout << "What criterion would you like to search by?\n 1.Title 2.Author 3.ISBN 4.Description\n";
 	const char* criteria[] = { "Title","Author","ISBN","Description"};
 	char* criterion = criterionInput(criteria, 4);
 
@@ -57,7 +62,7 @@ int findPredicate()
 }
 bool sortPredicateAscension()
 {
-	cout << "What second criterium would you like to sort by?\n 1.Ascending 2.Descending\n";
+	cout << "What second criterion would you like to sort by?\n 1.Ascending 2.Descending\n";
 	const char* criteria[] = { "Ascending","Descending"};
 	char* criterion = criterionInput(criteria, 2);
 	bool result = strcmp(criterion, "Ascending") == 0;
@@ -91,4 +96,34 @@ char* criterionInput(const char** criteriaToCheck,int criteriaCount)
 
 	} while (!validateCriterion(criterion, criteriaToCheck, criteriaCount));
 	return criterion;
+}
+void readByPages(ifstream& file)
+{
+	int pageCount;
+	cout<<"Enter how many pages you would like to read.\n";
+	cin >> pageCount;
+	int counter = 0;
+	while (!file.eof() && counter<pageCount)
+	{
+		char buff[MAX_SIZE];
+		file.getline(buff, MAX_SIZE);
+		cout << buff << endl;
+		++counter;
+	}
+}
+void readBySentences(istream& file)
+{
+	int sentenceCount;
+	cout << "Enter how many sentences you would like to read.\n";
+	cin >> sentenceCount;
+	int counter = 0;
+	while (!file.eof() && counter < sentenceCount)
+	{
+		char buff[MAX_SIZE];
+		file.getline(buff, MAX_SIZE,'.'); // TODO: make it work for ?,!,
+		file.ignore();//ignoring the delimiter;
+		cout << buff << endl;
+		++counter;
+	}
+
 }

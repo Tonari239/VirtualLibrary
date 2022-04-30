@@ -74,7 +74,7 @@ Book** Library::getBooks() const
 
 void Library::Sort()
 {
-	int predicateResult = sortPredicate(); // 1->Author; 2->Title; 3->Rating
+	int predicateResult = sortPredicate(); // 1->Title; 2->Author; 3->Rating
 	if (predicateResult == 1)
 	{
 		sortByTitle();
@@ -138,6 +138,7 @@ void Library::print()
 	}
 }
 
+// edinstvenoto razlichno v tezi 3 funkcii e koi getter vikame za obekt book - ima li kak da se generalizira?
 void Library::sortByTitle() // 1-> ascending 0 -> descending
 {
 	int mode = sortPredicateAscension();
@@ -155,7 +156,7 @@ void Library::sortByTitle() // 1-> ascending 0 -> descending
 			}
 		}
 	}
-}
+} 
 void Library::sortByAuthor()
 {
 	int mode = sortPredicateAscension();
@@ -195,6 +196,7 @@ void Library::sortByRating()
 
 }
 
+//TODO: ignore caps and small letters
 int Library::findByTitle(char* input) const
 {
 	for (int i = 0; i < mCount; i++)
@@ -237,30 +239,50 @@ int Library::findByDescription(char* input) const
 	}
 
 }
-void Library::displayBook(const Book& book) const
-{
-
-}
 Book& Library::findBy(char* input) const
 {
-	int criterium = findPredicate();
-	int bookIndex=1;
-	if (criterium == 1)
+	int criterion = findPredicate();
+	int bookIndex;
+	if (criterion == 1)
 	{
-		findByTitle(input);
+		bookIndex=findByTitle(input);
 	}
-	else if (criterium == 2)
+	else if (criterion == 2)
 	{
-		findByAuthor(input);
+		bookIndex=findByAuthor(input);
 	}
-	else if (criterium==3)
+	else if (criterion == 3)
 	{
-		findByISBN(input);
+		bookIndex=findByISBN(input);
 	}
 	else
 	{
-		findByDescription(input);
+		bookIndex=findByDescription(input);
 	}
-	(*mBooks[bookIndex]).print();
 	return *mBooks[bookIndex];
 }
+void Library::find(char* input) const
+{
+	findBy(input).print();
+}
+void Library::displayBook(const Book& book) const
+{
+	int mode; //1->by pages 2->by sentences;
+	cout <<"Enter \"1\" to read in page mode and \"2\" to read in sentence mode\n";
+	cin >> mode;
+	while (mode!=1 && mode!=2)
+	{
+		cout << "Wrong input! Enter \"1\" or \"2\"";
+		cin >> mode;
+	}
+	ofstream file(book.getFileName());
+	if (mode == 1)
+	{
+		readByPages(file);
+	}
+	else
+	{
+		readBySentences(file);
+	}
+}
+

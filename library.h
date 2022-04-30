@@ -3,6 +3,7 @@
 #include "book.h"
 
 #define START_CAPACITY 4
+
 class Library
 {
 	Book** mBooks;
@@ -10,8 +11,8 @@ class Library
 	int mCapacity;
 	void copy(const Library& other);
 	void free();
-	void resize(); 
-	void print();
+	void resize();
+	
 	void sortByTitle();
 	void sortByAuthor(); // TODO: check if you can optimise a sort function accepting parameter -get function:char(*getFunction())
 	void sortByRating();
@@ -31,5 +32,7 @@ public:
 	Book& findBy(char* input) const;
 	void removeBook(Book bookToRemove);
 	void displayBook(const Book& book) const;
+	void find(char* input) const;
+	void print();
 };
 #endif
