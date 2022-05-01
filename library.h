@@ -15,9 +15,7 @@ class Library
 	
 	void sortByRating();
 	void sortByString(char* (Book::* function)() const);
-
-	int findByTitle(char* input) const;
-	int findByAuthor(char* input) const;
+	int findByString(char* input, char* (Book::* function)() const) const;
 	int findByISBN(char* input) const;
 	int findByDescription(char* input) const;
 public:
@@ -33,5 +31,6 @@ public:
 	void displayBook(const Book& book) const;
 	void find(char* input) const;
 	void print();
+	
 };
 #endif

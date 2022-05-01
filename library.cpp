@@ -38,6 +38,77 @@ void Library::resize()
 		mBooks = newArr;
 	}
 }
+void Library::sortByString(char* (Book::* function)() const) // 1-> ascending 0 -> descending
+{
+	int mode = sortPredicateAscension();
+	for (int j = 1; j < mCount; j++)
+	{
+		for (int i = 0; i < mCount; i++)
+		{
+			if (mode && strcmp((*mBooks[i].*function)(), (*mBooks[j].*function)()) > 0)
+			{
+				swap(mBooks[j], mBooks[i]);
+			}
+			else if (!mode && strcmp((*mBooks[i].*function)(), (*mBooks[j].*function)()) < 0)
+			{
+				swap(mBooks[j], mBooks[i]);
+			}
+		}
+	}
+}
+void Library::sortByRating()
+{
+	int mode = sortPredicateAscension();
+	for (int j = 1; j < mCount; j++)
+	{
+		for (int i = 0; i < mCount; i++)
+		{
+			if (mode && (*mBooks[i]).getRating() < (*mBooks[j]).getRating())
+			{
+				swap(mBooks[j], mBooks[i]);
+			}
+			else if (!mode && (*mBooks[i]).getRating() > (*mBooks[j]).getRating())
+			{
+				swap(mBooks[j], mBooks[i]);
+			}
+		}
+	}
+
+}
+
+//TODO: ignore caps and small letters ; ask if we can use cstring
+int Library::findByString(char* input, char* (Book::* function)() const) const
+{
+	for (int i = 0; i < mCount; i++)
+	{
+		if (strcmp(((*mBooks[i]).*function)(), input) == 0)
+		{
+			return i;
+		}
+	}
+}
+int Library::findByISBN(char* input) const
+{
+	for (int i = 0; i < mCount; i++)
+	{
+		if ((*mBooks[i]).getISBN() == atoi(input))
+		{
+			return i;
+		}
+	}
+
+}
+int Library::findByDescription(char* input) const
+{
+	for (int i = 0; i < mCount; i++)
+	{
+		if (strstr((*mBooks[i]).getDescription(), input) != nullptr)
+		{
+			return i;
+		}
+	}
+
+}
 
 Library::Library()
 {
@@ -71,6 +142,7 @@ Book** Library::getBooks() const
 {
 	return mBooks;
 }
+
 
 void Library::sort()
 {
@@ -137,100 +209,17 @@ void Library::print()
 		(*mBooks[i]).print();
 	}
 }
-
-void Library::sortByString(char* (Book::*function )() const) // 1-> ascending 0 -> descending
-{
-	int mode = sortPredicateAscension();
-	(*mBooks[1].*function)();
-	for (int j = 1; j < mCount; j++)
-	{
-		for (int i = 0; i < mCount; i++)
-		{
-			if (mode && strcmp((*mBooks[i].*function)(), (*mBooks[j].*function)()) > 0)
-			{
-				swap(mBooks[j], mBooks[i]);
-			}
-			else if (!mode && strcmp((*mBooks[i].*function)(), (*mBooks[j].*function)()) < 0)
-			{
-				swap(mBooks[j], mBooks[i]);
-			}
-		}
-	}
-}
-void Library::sortByRating()
-{
-	int mode = sortPredicateAscension();
-	for (int j = 1; j < mCount; j++)
-	{
-		for (int i = 0; i < mCount; i++)
-		{
-			if (mode && (*mBooks[i]).getRating() < (*mBooks[j]).getRating())
-			{
-				swap(mBooks[j], mBooks[i]);
-			}
-			else if (!mode && (*mBooks[i]).getRating() > (*mBooks[j]).getRating())
-			{
-				swap(mBooks[j], mBooks[i]);
-			}
-		}
-	}
-
-}
-
-//TODO: ignore caps and small letters
-int Library::findByTitle(char* input) const
-{
-	for (int i = 0; i < mCount; i++)
-	{
-		if (strcmp((*mBooks[i]).getTitle(), input) == 0)
-		{
-			return i;
-		}
-	}
-}
-int Library::findByAuthor(char* input) const
-{
-	for (int i = 0; i < mCount; i++)
-	{
-		if (strcmp((*mBooks[i]).getAuthor(), input) == 0)
-		{
-			return i;
-		}
-	}
-}
-int Library::findByISBN(char* input) const
-{
-	for (int i = 0; i < mCount; i++)
-	{
-		if ((*mBooks[i]).getISBN()==atoi(input))
-		{
-			return i;
-		}
-	}
-
-}
-int Library::findByDescription(char* input) const
-{
-	for (int i = 0; i < mCount; i++)
-	{
-		if (strstr((*mBooks[i]).getDescription(), input) !=nullptr)
-		{
-			return i;
-		}
-	}
-
-}
 Book& Library::findBy(char* input) const
 {
 	int criterion = findPredicate();
 	int bookIndex;
 	if (criterion == 1)
 	{
-		bookIndex=findByTitle(input);
+		bookIndex=findByString(input,&Book::getTitle);
 	}
 	else if (criterion == 2)
 	{
-		bookIndex=findByAuthor(input);
+		bookIndex=findByString(input, &Book::getAuthor);
 	}
 	else if (criterion == 3)
 	{
