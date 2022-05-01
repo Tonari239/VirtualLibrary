@@ -91,7 +91,7 @@ char* criterionInput(const char** criteriaToCheck,int criteriaCount)
 		delete[] criterion;
 		cin.getline(input, MAXLENGTH);
 		int length = strlen(input) + 1;
-		criterion = new char[length]; // check if there is a memory leak here
+		criterion = new char[length];
 		strcpy(criterion, input);
 
 	} while (!validateCriterion(criterion, criteriaToCheck, criteriaCount));

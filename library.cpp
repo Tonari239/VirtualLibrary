@@ -72,16 +72,16 @@ Book** Library::getBooks() const
 	return mBooks;
 }
 
-void Library::Sort()
+void Library::sort()
 {
 	int predicateResult = sortPredicate(); // 1->Title; 2->Author; 3->Rating
 	if (predicateResult == 1)
 	{
-		sortByTitle();
+		sortByString(&(Book::getTitle));
 	}
 	else if (predicateResult == 2)
 	{
-		sortByAuthor();
+		sortByString(&(Book::getAuthor));
 	}
 	else
 	{
@@ -138,43 +138,24 @@ void Library::print()
 	}
 }
 
-// edinstvenoto razlichno v tezi 3 funkcii e koi getter vikame za obekt book - ima li kak da se generalizira?
-void Library::sortByTitle() // 1-> ascending 0 -> descending
+void Library::sortByString(char* (Book::*function )() const) // 1-> ascending 0 -> descending
 {
 	int mode = sortPredicateAscension();
+	(*mBooks[1].*function)();
 	for (int j = 1; j < mCount; j++)
 	{
 		for (int i = 0; i < mCount; i++)
 		{
-			if (mode && strcmp((*mBooks[i]).getTitle(), (*mBooks[j]).getTitle()) > 0)
+			if (mode && strcmp((*mBooks[i].*function)(), (*mBooks[j].*function)()) > 0)
 			{
 				swap(mBooks[j], mBooks[i]);
 			}
-			else if (!mode && strcmp((*mBooks[i]).getTitle(), (*mBooks[j]).getTitle()) < 0)
+			else if (!mode && strcmp((*mBooks[i].*function)(), (*mBooks[j].*function)()) < 0)
 			{
 				swap(mBooks[j], mBooks[i]);
 			}
 		}
 	}
-} 
-void Library::sortByAuthor()
-{
-	int mode = sortPredicateAscension();
-	for (int j = 1; j < mCount; j++)
-	{
-		for (int i = 0; i < mCount; i++)
-		{
-			if (mode && strcmp((*mBooks[i]).getAuthor(), (*mBooks[j]).getAuthor()) > 0)
-			{
-				swap(mBooks[j], mBooks[i]);
-			}
-			else if (!mode && strcmp((*mBooks[i]).getAuthor(), (*mBooks[j]).getAuthor()) < 0)
-			{
-				swap(mBooks[j], mBooks[i]);
-			}
-		}
-	}
-
 }
 void Library::sortByRating()
 {

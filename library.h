@@ -13,9 +13,8 @@ class Library
 	void free();
 	void resize();
 	
-	void sortByTitle();
-	void sortByAuthor(); // TODO: check if you can optimise a sort function accepting parameter -get function:char(*getFunction())
 	void sortByRating();
+	void sortByString(char* (Book::* function)() const);
 
 	int findByTitle(char* input) const;
 	int findByAuthor(char* input) const;
@@ -27,7 +26,7 @@ public:
 	~Library();
 	Library& operator=(const Library& other);
 	Book** getBooks() const;
-	void Sort();
+	void sort();
 	void addBook(const Book& bookToAdd);
 	Book& findBy(char* input) const;
 	void removeBook(Book bookToRemove);
