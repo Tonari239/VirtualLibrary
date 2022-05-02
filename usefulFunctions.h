@@ -2,10 +2,11 @@
 #define __UsefulFunctions
 
 #include <iostream>
+#include "book.h"
 using namespace std;
-#define MAXLENGTH 1024
+#define MAX_LENGTH 1024
 
-void copyString(char*& destination, char*& source);
+void copyString(char*& destination, char* source);
 int sortPredicate(); 
 int findPredicate();
 bool sortPredicateAscension();
@@ -15,4 +16,8 @@ void readByPages(istream& file);
 void readBySentences(istream& file);
 char toLowerChar(char c);
 char* toLowerString(char* input);
+void readSentence(istream& file);
+void setField(Book& book,const char* fieldName, void (Book::* function)(char* input));
+bool authorize(const char* pass);
+
 #endif

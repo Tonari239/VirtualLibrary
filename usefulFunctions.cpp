@@ -1,11 +1,11 @@
 #include "usefulFunctions.h"
 #include <fstream>
 #include <iostream>
+#include "book.h"
 using namespace std;
 
-const int MAX_SIZE = 1024;
 
-void copyString(char*& destination,char*& source)
+void copyString(char*& destination,char* source)
 {
 	int length = strlen(source) + 1;
 	delete[] destination;
@@ -84,12 +84,12 @@ bool validateCriterion(char* inputCriterion,const char** criteriaToCheck, int cr
 }
 char* criterionInput(const char** criteriaToCheck,int criteriaCount)
 {
-	char input[MAXLENGTH];
+	char input[MAX_LENGTH];
 	char* criterion=nullptr;
 	do
 	{
 		delete[] criterion;
-		cin.getline(input, MAXLENGTH);
+		cin.getline(input, MAX_LENGTH);
 		int length = strlen(input) + 1;
 		criterion = new char[length];
 		strcpy(criterion, input);
@@ -105,25 +105,32 @@ void readByPages(istream& file)
 	int counter = 0;
 	while (!file.eof() && counter<pageCount)
 	{
-		char buff[MAX_SIZE];
-		file.getline(buff, MAX_SIZE);
+		char buff[MAX_LENGTH];
+		file.getline(buff, MAX_LENGTH);
 		cout << buff << endl;
 		++counter;
 	}
+}
+void readSentence(istream& file)
+{
+	char c;
+	if (!file.eof() && (file.peek() != '!' && file.peek() != '?' && file.peek() != '.'))
+	{
+
+		file.get(c);
+		cout << c;
+	}
+	file.get(c);
+	cout << c << " ";
 }
 void readBySentences(istream& file)
 {
 	int sentenceCount;
 	cout << "Enter how many sentences you would like to read.\n";
 	cin >> sentenceCount;
-	int counter = 0;
-	while (!file.eof() && counter < sentenceCount)
+	for (int i = 0; i < sentenceCount; i++)
 	{
-		char buff[MAX_SIZE];
-		file.getline(buff, MAX_SIZE,'.'); // TODO: make it work for ?,!,
-		file.ignore();//ignoring the delimiter;
-		cout << buff << endl;
-		++counter;
+		readSentence(file);
 	}
 
 }
@@ -133,6 +140,7 @@ char toLowerChar(char c)
 	{
 		return c + 32;
 	}
+	return c;
 }
 char* toLowerString(char* input)
 {
@@ -141,4 +149,37 @@ char* toLowerString(char* input)
 	{
 		input[i] = toLowerChar(input[i]);
 	}
+	return input;
+}
+void setField(Book& book,const char* fieldName,void (Book::*function)(char* input)) 
+{
+	cout << "Enter input for " << fieldName << endl;
+	char buffer[MAX_LENGTH];
+	char* input;
+	copyString(input, buffer);
+	(book.*function)(input);
+	delete[] input;
+}
+bool authorize(const char* pass)
+{
+	bool isAuthorized = false;
+	cout << "Enter admin password:\n";
+	char buffer[MAX_LENGTH];
+	cin.getline(buffer, MAX_LENGTH);
+	char* input;
+	copyString(input, buffer);
+	while (strcmp(pass,input)!=0)
+	{
+		cout << "Wrong password! Try again or enter \"Exit\" ";
+		cin.getline(buffer, MAX_LENGTH);
+		char* input;
+		copyString(input, buffer);
+		if (strcmp(input, "Exit") == 0)
+		{
+			return isAuthorized;
+		}
+	}
+	isAuthorized = true;
+	return isAuthorized;
+	delete[] input;
 }
