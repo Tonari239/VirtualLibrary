@@ -38,7 +38,7 @@ public:
 	void setTitle(char* title);
 	void setFileName(char* fileName);
 	void setDescription(char* description);
-	void setRating(Rating rating);
+	void setRating(int rating);
 	void setISBN(int isbn);
 
 	Book();

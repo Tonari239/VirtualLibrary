@@ -26,11 +26,11 @@ public:
 	Book** getBooks() const;
 	void sort();
 	void addBook(const Book& bookToAdd);
-	Book& findBy(char* input) const;
-	void removeBook(Book bookToRemove);
+	Book& findBy() const;
+	void removeBook(const Book& bookToRemove);
 	void displayBook(const Book& book) const;
-	void find(char* input) const;
-	void print();
+	void find() const;
+	void print() const;
 	
 };
 #endif

@@ -43,9 +43,16 @@ void Book::setDescription(char* description)
 {
 	copyString(mDescription, description);
 }
-void Book::setRating(Rating rating)
+void Book::setRating(int rating)
 {
-	mRating = rating;
+	if (rating >= 1 && rating <= 5)
+	{
+		mRating = (Rating)rating;
+	}
+	else
+	{
+		mRating = Rating::UNRATED;
+	}
 }
 void Book::setISBN(int isbn)
 {

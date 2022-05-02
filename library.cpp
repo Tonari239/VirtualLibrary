@@ -2,7 +2,6 @@
 #include "usefulFunctions.h"
 #include <fstream>
 #include <iostream>
-#include "usefulFunctions.cpp"
 using namespace std;
 
 void Library::copy(const Library& other)
@@ -12,7 +11,7 @@ void Library::copy(const Library& other)
 	mBooks = new Book*[mCapacity];
 	for (int i = 0; i < mCount; i++)
 	{
-		mBooks[i] = new Book(*(other.mBooks[i]));
+		mBooks[i] = new Book(*(other.mBooks[i])); // count is always less than capacity so no overflow will occur
 	}
 	
 }
@@ -88,6 +87,7 @@ int Library::findByString(char* input, char* (Book::* function)() const) const
 		}
 		delete[] compareString;
 	}
+	return -1;
 }
 int Library::findByISBN(char* input) const
 {
@@ -98,7 +98,7 @@ int Library::findByISBN(char* input) const
 			return i;
 		}
 	}
-
+	return -1;
 }
 int Library::findByDescription(char* input) const
 {
@@ -111,7 +111,7 @@ int Library::findByDescription(char* input) const
 		}
 		delete[] compareString;
 	}
-
+	return -1;
 }
 
 Library::Library()
@@ -170,14 +170,17 @@ void Library::addBook(const Book& bookToAdd)
 	resize();
 	mBooks[mCount] = new Book(bookToAdd);
 	ofstream outputFile(bookToAdd.getFileName());
-	if (outputFile)
+	cout << "Add contents of the book";
+	while (outputFile)
 	{
-		outputFile << bookToAdd;
+		char line[MAX_LENGTH];
+		cin.getline(line, MAX_LENGTH);
+		outputFile.write(line, MAX_LENGTH);
 	}
 	++mCount;
 	outputFile.close();
 }
-void Library::removeBook(Book bookToRemove)
+void Library::removeBook(const Book& bookToRemove)
 {
 	int removeIndex = 0;
 	for (int i = 0; i < mCount; i++)
@@ -206,17 +209,23 @@ void Library::removeBook(Book bookToRemove)
 		remove(bookToRemove.getFileName());
 	}
 }
-void Library::print()
+void Library::print() const
 {
 	for (int i = 0; i < mCount; i++)
 	{
 		(*mBooks[i]).print();
 	}
 }
-Book& Library::findBy(char* input) const
+Book& Library::findBy() const
 {
 	int criterion = findPredicate();
 	int bookIndex;
+	cout << "Enter the contents of the field:\n";
+	char buffer[MAX_LENGTH];
+	char* input;
+	cin.getline(buffer, MAX_LENGTH);
+	copyString(input, buffer);
+
 	if (criterion == 1)
 	{
 		bookIndex=findByString(input,&Book::getTitle);
@@ -233,11 +242,15 @@ Book& Library::findBy(char* input) const
 	{
 		bookIndex=findByDescription(input);
 	}
+	if (bookIndex == -1)
+	{
+		throw "Book not found!";
+	}
 	return *mBooks[bookIndex];
 }
-void Library::find(char* input) const
+void Library::find() const
 {
-	findBy(input).print();
+	findBy().print();
 }
 void Library::displayBook(const Book& book) const
 {
