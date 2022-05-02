@@ -76,15 +76,17 @@ void Library::sortByRating()
 
 }
 
-//TODO: ignore caps and small letters ; ask if we can use cstring
 int Library::findByString(char* input, char* (Book::* function)() const) const
 {
+	
 	for (int i = 0; i < mCount; i++)
 	{
-		if (strcmp(((*mBooks[i]).*function)(), input) == 0)
+		char* compareString = toLowerString(((*mBooks[i]).*function)());
+		if (strcmp(compareString, input) == 0)
 		{
 			return i;
 		}
+		delete[] compareString;
 	}
 }
 int Library::findByISBN(char* input) const
@@ -102,10 +104,12 @@ int Library::findByDescription(char* input) const
 {
 	for (int i = 0; i < mCount; i++)
 	{
-		if (strstr((*mBooks[i]).getDescription(), input) != nullptr)
+		char* compareString = toLowerString((*mBooks[i]).getDescription());
+		if (strstr(compareString, input) != nullptr)
 		{
 			return i;
 		}
+		delete[] compareString;
 	}
 
 }
@@ -245,7 +249,7 @@ void Library::displayBook(const Book& book) const
 		cout << "Wrong input! Enter \"1\" or \"2\"";
 		cin >> mode;
 	}
-	ofstream file(book.getFileName());
+	ifstream file(book.getFileName());
 	if (mode == 1)
 	{
 		readByPages(file);
