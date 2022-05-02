@@ -97,7 +97,7 @@ char* criterionInput(const char** criteriaToCheck,int criteriaCount)
 	} while (!validateCriterion(criterion, criteriaToCheck, criteriaCount));
 	return criterion;
 }
-void readByPages(ifstream& file)
+void readByPages(istream& file)
 {
 	int pageCount;
 	cout<<"Enter how many pages you would like to read.\n";
@@ -126,4 +126,19 @@ void readBySentences(istream& file)
 		++counter;
 	}
 
+}
+char toLowerChar(char c)
+{
+	if (c >= 'A' && c <= 'Z')
+	{
+		return c + 32;
+	}
+}
+char* toLowerString(char* input)
+{
+	int length = strlen(input) + 1;
+	for (int i = 0; i < length; i++)
+	{
+		input[i] = toLowerChar(input[i]);
+	}
 }
