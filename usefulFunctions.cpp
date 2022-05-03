@@ -161,6 +161,8 @@ void setField(Book& book,const char* fieldName,void (Book::*function)(char* inpu
 	(book.*function)(input);
 	delete[] input;
 }
+
+//идеята е взаимствана от  https ://www.dreamincode.net/forums/topic/238072-censor-password-in-c/ , отговорът на потребител "staycrisp"
 void enterPassword(char* input,char encryptChar)
 {
 	char inputChar='0';
