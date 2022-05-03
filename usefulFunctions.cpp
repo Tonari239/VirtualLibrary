@@ -2,6 +2,7 @@
 #include <fstream>
 #include <iostream>
 #include "book.h"
+#include <conio.h>
 using namespace std;
 
 
@@ -160,20 +161,35 @@ void setField(Book& book,const char* fieldName,void (Book::*function)(char* inpu
 	(book.*function)(input);
 	delete[] input;
 }
+void enterPassword(char* input,char encryptChar)
+{
+	char inputChar='0';
+	int counter = 0;
+	while (inputChar != '\r')
+	{
+		inputChar = _getch(); // used with  #include <conio.h>
+
+		if (inputChar != '\r')
+		{
+			input[counter] = inputChar;
+			std::cout << encryptChar;
+			++counter;
+		}
+	}
+}
 bool authorize(const char* pass)
 {
 	bool isAuthorized = false;
 	cout << "Enter admin password:\n";
-	char buffer[MAX_LENGTH];
-	cin.getline(buffer, MAX_LENGTH);
-	char* input;
-	copyString(input, buffer);
+	char input[MAX_LENGTH];
+	enterPassword(input, '*');
+	char* inputPassword;
+	copyString(inputPassword, input);
 	while (strcmp(pass,input)!=0)
 	{
 		cout << "Wrong password! Try again or enter \"Exit\" ";
-		cin.getline(buffer, MAX_LENGTH);
-		char* input;
-		copyString(input, buffer);
+		enterPassword(input, '*');
+		copyString(inputPassword, input);
 		if (strcmp(input, "Exit") == 0)
 		{
 			return isAuthorized;
@@ -181,5 +197,5 @@ bool authorize(const char* pass)
 	}
 	isAuthorized = true;
 	return isAuthorized;
-	delete[] input;
+	delete[] inputPassword;
 }
