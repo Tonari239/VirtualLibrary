@@ -117,7 +117,6 @@ void readSentence(istream& file)
 	char c;
 	if (!file.eof() && (file.peek() != '!' && file.peek() != '?' && file.peek() != '.'))
 	{
-
 		file.get(c);
 		cout << c;
 	}
@@ -139,7 +138,7 @@ char toLowerChar(char c)
 {
 	if (c >= 'A' && c <= 'Z')
 	{
-		return c + 32;
+		return c + ('A' -'a');
 	}
 	return c;
 }
@@ -156,9 +155,11 @@ void setField(Book& book,const char* fieldName,void (Book::*function)(char* inpu
 {
 	cout << "Enter input for " << fieldName << endl;
 	char buffer[MAX_LENGTH];
-	char* input;
+	cin.getline(buffer, MAX_LENGTH);
+	char* input=nullptr;
 	copyString(input, buffer);
 	(book.*function)(input);
+	cout << endl;
 	delete[] input;
 }
 
@@ -168,16 +169,26 @@ void enterPassword(char* input,char encryptChar)
 	char inputChar='0';
 	int counter = 0;
 	while (inputChar != '\r')
-	{
+	{ 
+		// enable deleting/backspace
 		inputChar = _getch(); // used with  #include <conio.h>
-
-		if (inputChar != '\r')
+		if (inputChar == '\b' && counter != 0)
+		{
+			input[counter] = '\0';
+			--counter;
+			cout << "\b";
+			cout << " "; // idea from https://stackoverflow.com/questions/3745861/how-to-remove-last-character-put-to-stdcout
+			cout << "\b";
+		}
+		else if (inputChar != '\r')
 		{
 			input[counter] = inputChar;
 			std::cout << encryptChar;
 			++counter;
 		}
 	}
+	input[counter] = '\0';
+	cout << endl;
 }
 bool authorize(const char* pass)
 {
@@ -185,19 +196,11 @@ bool authorize(const char* pass)
 	cout << "Enter admin password:\n";
 	char input[MAX_LENGTH];
 	enterPassword(input, '*');
-	char* inputPassword;
-	copyString(inputPassword, input);
-	while (strcmp(pass,input)!=0)
+	if (strcmp(pass,input)!=0)
 	{
-		cout << "Wrong password! Try again or enter \"Exit\" ";
-		enterPassword(input, '*');
-		copyString(inputPassword, input);
-		if (strcmp(input, "Exit") == 0)
-		{
-			return isAuthorized;
-		}
+		cout << "Wrong password! Operation failed\n";
+		return isAuthorized;
 	}
 	isAuthorized = true;
 	return isAuthorized;
-	delete[] inputPassword;
 }
