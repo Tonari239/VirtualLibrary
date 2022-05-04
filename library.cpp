@@ -263,6 +263,36 @@ void Library::removeBook(const Book& bookToRemove)
 		mBooks[i] = mBooks[i+1];
 	}
 	--mCount;
+
+	fstream booksList(this->getFileName());
+	char buffer[MAX_LENGTH];
+	while (!booksList.eof())
+	{
+		booksList.getline(buffer, MAX_LENGTH);
+		if (strcmp(buffer, bookToRemove.getTitle()) == 0)
+		{
+			int currGetPosition = booksList.tellg();
+			int currPutPosition = booksList.tellp();
+			int offSetCount = strlen(bookToRemove.getTitle());
+			int putPosition = currGetPosition - offSetCount;
+			booksList.seekp(currPutPosition);
+			for (int i = 0; i < offSetCount; i++)
+			{
+				booksList << " "; // instead of the name of the book, we write empty space;
+			}
+			booksList.seekg(ios::beg);
+			booksList.seekp(ios::beg);
+			break;
+		}
+	}
+	try
+	{
+		booksList.close();
+	}
+	catch (const std::exception&)
+	{
+		throw "Cannot close file!";
+	}
 	cout << "Would you like to delete file associated with the book? \nY/N\n";
 	char input;
 	cin >> input;
