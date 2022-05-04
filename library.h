@@ -9,6 +9,8 @@ class Library
 	Book** mBooks;
 	int mCount;
 	int mCapacity;
+	char* mAssociatedFile;
+
 	void copy(const Library& other);
 	void free();
 	void resize();
@@ -18,18 +20,24 @@ class Library
 	int findByString(char* input, char* (Book::* function)() const) const;
 	int findByISBN(char* input) const;
 	int findByDescription(char* input) const;
+
 public:
-	Library();
+	Book** getBooks() const;
+	char* getFileName() const;
+
+	Library()=delete;
+	Library(char* fileName);
 	Library(const Library& other);
 	~Library();
 	Library& operator=(const Library& other);
-	Book** getBooks() const;
-	void sort();
-	void addBook(const Book& bookToAdd);
-	Book& findBy() const;
+	
+	
+	void addBook(const Book& bookToAdd); 
 	void removeBook(const Book& bookToRemove);
-	void displayBook(const Book& book) const;
+	void sort();
+	Book& findBy() const;
 	void find() const;
+	void displayBook(const Book& book) const;
 	void print() const;
 	
 };

@@ -76,6 +76,7 @@ void Book::copy(const Book& other)
 	setRating(other.getRating());
 	setISBN(other.getISBN());
 }
+
 Book::Book() :mAuthor(nullptr), mTitle(nullptr), mFileName(nullptr), mDescription(nullptr),mRating(Rating::UNRATED)
 {
 	++count;
@@ -124,6 +125,7 @@ Book::~Book()
 	free(); 
 	--count;
 }
+
 Book& Book::operator=(const Book& other)
 {
 	if (this != &other)
@@ -132,6 +134,10 @@ Book& Book::operator=(const Book& other)
 		copy(other);
 	}
 	return *this;
+}
+bool Book::operator==(const Book& other) const
+{
+	return this->getISBN() == other.getISBN();
 }
 ostream& operator<<(ostream& out,const Book& book)
 {
@@ -148,7 +154,18 @@ ostream& operator<<(ostream& out,const Book& book)
 	out << book.getRating();
 	return out;
 }
+
 void Book::print()
 {
 	cout << getTitle() << ", " << getAuthor() << ", " << getISBN() << endl;
 }
+void Book::printDetailed()
+{
+	cout << "____________" << endl;
+	cout << "Title: " <<getTitle() << endl;
+	cout << "Author: " << getAuthor() << endl;
+	cout << "IBSN: " << getISBN() << endl;
+	cout << "Description: " << getDescription() << endl;
+	cout << "Rating: " << getRating() << endl;
+}
+

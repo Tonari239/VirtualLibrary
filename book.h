@@ -49,10 +49,10 @@ public:
 	Book(const Book& other);
 	~Book();
 	Book& operator=(const Book& other);
+	bool operator==(const Book& other) const;
 	friend ostream& operator<<(ostream& out,const Book& book);
 	void print();
-
-
-
+	void printDetailed();
+	
 };
 #endif
