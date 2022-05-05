@@ -14,7 +14,7 @@ bool validateCriterion(char* inputCriterion, const char** criteriaToCheck, int c
 char* criterionInput(const char** criteriaToCheck, int criteriaCount);
 void readByPages(istream& file);
 void readBySentences(istream& file);
-char toLowerChar(char c);
+char toLowerChar(char& c);
 char* toLowerString(char* input);
 void readSentence(istream& file);
 void setField(Book& book,const char* fieldName, void (Book::* function)(char* input));

@@ -18,6 +18,7 @@ void copyString(char*& destination,char* source)
 	destination = new char[length];
 	strcpy(destination, source);
 }
+
 int sortPredicate()
 {
 	cout << "What criterion would you like to sort by?\n 1.Author 2.Title 3.Rating\n";
@@ -139,7 +140,7 @@ void readBySentences(istream& file)
 	}
 
 }
-char toLowerChar(char c)
+char toLowerChar(char& c)
 {
 	if (c >= 'A' && c <= 'Z')
 	{
