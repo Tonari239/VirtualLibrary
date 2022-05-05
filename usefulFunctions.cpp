@@ -8,6 +8,11 @@ using namespace std;
 
 void copyString(char*& destination,char* source)
 {
+	if (source == nullptr)
+	{
+		destination = nullptr;
+		return;
+	}
 	int length = strlen(source) + 1;
 	delete[] destination;
 	destination = new char[length];
@@ -138,7 +143,7 @@ char toLowerChar(char c)
 {
 	if (c >= 'A' && c <= 'Z')
 	{
-		return c + ('A' -'a');
+		return c + ('a'-'A');
 	}
 	return c;
 }
