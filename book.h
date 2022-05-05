@@ -24,8 +24,10 @@ class Book
 	Rating mRating;
 	unsigned mISBN; //ISBN should be 10 digits long and unique
 
+	void setStringValuesToNullptr();
 	void copy(const Book& other);
 	void free();
+	void setISBN(unsigned ISBN);
 public:
 	char* getAuthor() const;
 	char* getTitle() const;
@@ -39,7 +41,7 @@ public:
 	void setFileName(char* fileName);
 	void setDescription(char* description);
 	void setRating(int rating);
-	void setISBN(int isbn);
+	
 
 	Book();
 	Book(char* author, char* title, char* fileName, char* description);  
@@ -51,8 +53,8 @@ public:
 	Book& operator=(const Book& other);
 	bool operator==(const Book& other) const;
 	friend ostream& operator<<(ostream& out,const Book& book);
-	void print();
-	void printDetailed();
+	void print() const;
+	void printDetailed() const;
 	
 };
 #endif

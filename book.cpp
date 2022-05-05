@@ -2,6 +2,7 @@
 #include "usefulFunctions.h"
 
 int Book::count = 0;
+
 char* Book::getAuthor() const
 {
 	return mAuthor;
@@ -29,18 +30,34 @@ unsigned Book::getISBN() const
 
 void Book::setAuthor(char* author)
 {
+	if (author==nullptr || (mAuthor!=nullptr && strcmp(this->getAuthor(),author)==0))
+	{
+		return;
+	}
 	copyString(mAuthor, author);
 }
 void Book::setTitle(char* title)
 {
-	copyString(mTitle,title);
+	if (title == nullptr || (mTitle != nullptr && strcmp(this->getTitle(), title) == 0))
+	{
+		return;
+	}
+	copyString(mTitle, title);
 }
 void Book::setFileName(char* fileName)
 {
+	if (fileName == nullptr || (mFileName != nullptr && strcmp(this->getFileName(), fileName) == 0))
+	{
+		return;
+	}
 	copyString(mFileName, fileName);
 }
 void Book::setDescription(char* description)
 {
+	if (description == nullptr || (mDescription != nullptr && strcmp(this->getDescription(), description) == 0))
+	{
+		return;
+	}
 	copyString(mDescription, description);
 }
 void Book::setRating(int rating)
@@ -54,12 +71,18 @@ void Book::setRating(int rating)
 		mRating = Rating::UNRATED;
 	}
 }
-void Book::setISBN(int isbn)
+void Book::setISBN(unsigned ISBN)
 {
-	mISBN = isbn;
+	mISBN =ISBN;
 }
 
-
+void Book::setStringValuesToNullptr()
+{
+	mAuthor = nullptr;
+	mTitle = nullptr;
+	mFileName = nullptr;
+	mDescription = nullptr;
+}
 void Book::free()
 {
 	delete[] mAuthor;
@@ -69,6 +92,7 @@ void Book::free()
 }
 void Book::copy(const Book& other)
 {
+	setStringValuesToNullptr();
 	setAuthor(other.getAuthor());
 	setTitle(other.getTitle());
 	setFileName(other.getFileName());
@@ -84,6 +108,7 @@ Book::Book() :mAuthor(nullptr), mTitle(nullptr), mFileName(nullptr), mDescriptio
 }
 Book::Book(char* author, char* title, char* fileName, char* description) : mRating(Rating::UNRATED)  
 {
+	setStringValuesToNullptr();
 	setAuthor(author);
 	setTitle(title);
 	setFileName(fileName);
@@ -93,6 +118,7 @@ Book::Book(char* author, char* title, char* fileName, char* description) : mRati
 }
 Book::Book(const char* author, const char* title, const char* fileName, const char* description) :mRating(Rating::UNRATED)
 {
+	setStringValuesToNullptr();
 	++count;
 	setAuthor((char*)author);
 	setTitle((char*)title);
@@ -102,6 +128,7 @@ Book::Book(const char* author, const char* title, const char* fileName, const ch
 }
 Book::Book(const char* author, const char* title, const char* fileName, const char* description,Rating rating)
 {
+	setStringValuesToNullptr();
 	++count;
 	setAuthor((char*)author);
 	setTitle((char*)title);
@@ -112,6 +139,7 @@ Book::Book(const char* author, const char* title, const char* fileName, const ch
 }
 Book::Book(char* author, char* title, char* fileName, char* description, Rating rating)
 {
+	setStringValuesToNullptr();
 	++count;
 	setAuthor(author);
 	setTitle(title);
@@ -127,7 +155,7 @@ Book::Book(const Book& other)
 Book::~Book()
 {
 	free(); 
-	--count;
+	// count won't be reduced because we use it only to generate a unique ISBN
 }
 
 Book& Book::operator=(const Book& other)
@@ -159,16 +187,16 @@ ostream& operator<<(ostream& out,const Book& book)
 	return out;
 }
 
-void Book::print()
+void Book::print() const
 {
 	cout << getTitle() << ", " << getAuthor() << ", " << getISBN() << endl;
 }
-void Book::printDetailed()
+void Book::printDetailed() const
 {
 	cout << "____________" << endl;
 	cout << "Title: " <<getTitle() << endl;
 	cout << "Author: " << getAuthor() << endl;
-	cout << "IBSN: " << getISBN() << endl;
+	cout << "ISBN: " << getISBN() << endl;
 	cout << "Description: " << getDescription() << endl;
 	cout << "Rating: " << getRating() << endl;
 }

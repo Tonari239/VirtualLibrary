@@ -1,10 +1,17 @@
 #include "user.h"
 #include "usefulFunctions.h"
 
+void User::setStringValuesToNullptr()
+{
+	mPassword = nullptr;
+	mUserName = nullptr;
+}
 void User::copy(const User& other)
 {
+	setStringValuesToNullptr();
 	setUsername(other.getUsername());
 	setPassword(other.getPassword());
+	mIsAdmin = other.getAdminStatus();
 }
 void User::free()
 {
@@ -18,29 +25,34 @@ User::User() : mUserName(nullptr),mPassword(nullptr)
 }
 User::User(char* userName, char* password)
 {
+	setStringValuesToNullptr();
 	mIsAdmin = false;
 	setUsername(userName);
 	setPassword(password);
 }
 User::User(char* userName) :mPassword(nullptr)
 {
+	setStringValuesToNullptr();
 	setUsername(userName);
 	mIsAdmin = false;
 }
 
 User::User(const char* userName) : mPassword(nullptr)
 {
+	setStringValuesToNullptr();
 	setUsername((char*)userName);
 	mIsAdmin = false;
 }
 User::User(const char* userName, const char* password)
 {
+	setStringValuesToNullptr();
 	mIsAdmin = false;
 	setUsername((char*)userName);
 	setPassword((char*)password);
 }
 User::User(const User& other)
 {
+	setStringValuesToNullptr();
 	mIsAdmin = false;
 	copy(other);
 }
@@ -81,12 +93,21 @@ void User::setAdminStatus(bool status)
 
 void User::setUsername(char* userName)
 {
+	if (userName == nullptr || (mUserName != nullptr && strcmp(this->getUsername(), userName) == 0))
+	{
+		return;
+	}
 	copyString(mUserName, userName);
 }
 void User::setPassword(char* password)
 {
+	if (password == nullptr || (mPassword != nullptr && strcmp(this->getPassword(), password) == 0))
+	{
+		return;
+	}
 	copyString(mPassword, password);
 }
+
 
 ostream& operator<<(ostream& out, const User& user)
 {

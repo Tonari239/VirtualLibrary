@@ -8,6 +8,8 @@ class User
 	char* mUserName;
 	char* mPassword;
 	bool mIsAdmin;
+
+	void setStringValuesToNullptr();
 	void copy(const User& other);
 	void free();
 public:
