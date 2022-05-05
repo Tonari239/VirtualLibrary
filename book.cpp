@@ -82,10 +82,14 @@ Book::Book() :mAuthor(nullptr), mTitle(nullptr), mFileName(nullptr), mDescriptio
 	++count;
 	setISBN(count);
 }
-Book::Book(char* author, char* title, char* fileName, char* description) :mAuthor(author), mTitle(title), mFileName(fileName), mDescription(description), mRating(Rating::UNRATED)  
+Book::Book(char* author, char* title, char* fileName, char* description) : mRating(Rating::UNRATED)  
 {
-	++count;
+	setAuthor(author);
+	setTitle(title);
+	setFileName(fileName);
+	setDescription(description);
 	setISBN(count);
+	++count;
 }
 Book::Book(const char* author, const char* title, const char* fileName, const char* description) :mRating(Rating::UNRATED)
 {

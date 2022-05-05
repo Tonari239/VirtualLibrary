@@ -22,8 +22,9 @@ User::User(char* userName, char* password)
 	setUsername(userName);
 	setPassword(password);
 }
-User::User(char* userName) :mUserName(userName),mPassword(nullptr)
+User::User(char* userName) :mPassword(nullptr)
 {
+	setUsername(userName);
 	mIsAdmin = false;
 }
 
