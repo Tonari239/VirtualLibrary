@@ -6,6 +6,7 @@ using namespace std;
 
 void Library::copy(const Library& other)
 {
+	mAssociatedFile = nullptr;
 	mCount = other.mCount;
 	mCapacity = other.mCapacity;
 	mBooks = new Book*[mCapacity];
@@ -49,14 +50,29 @@ char* Library::getFileName() const
 {
 	return mAssociatedFile;
 }
+int Library::getCount() const
+{
+	return mCount;
+}
 
 Library::Library(char* fileName)
 {
 	mCapacity = START_CAPACITY;
 	mCount = 0;
 	mBooks = new Book*[mCapacity];
+	mAssociatedFile = nullptr;
 	copyString(mAssociatedFile, fileName);
 }
+
+Library::Library(const char* fileName)
+{
+	mCapacity = START_CAPACITY;
+	mCount = 0;
+	mBooks = new Book * [mCapacity];
+	mAssociatedFile = nullptr;
+	copyString(mAssociatedFile, (char*)fileName);
+}
+
 Library::Library(const Library& other)
 {
 	copy(other);
@@ -142,7 +158,10 @@ int Library::findByString(char* input, char* (Book::* function)() const) const
 
 	for (int i = 0; i < mCount; i++)
 	{
-		char* compareString = toLowerString(((*mBooks[i]).*function)());
+		char* compareString = nullptr;
+		copyString(compareString, ((*mBooks[i]).*function)());
+		toLowerString(compareString);
+		toLowerString(input);
 		if (strcmp(compareString, input) == 0)
 		{
 			delete[] compareString;
@@ -167,7 +186,10 @@ int Library::findByDescription(char* input) const
 {
 	for (int i = 0; i < mCount; i++)
 	{
-		char* compareString = toLowerString((*mBooks[i]).getDescription());
+		char* compareString = nullptr;
+		copyString(compareString, ((*mBooks[i]).getDescription()));
+		toLowerString(compareString);
+		toLowerString(input);
 		if (strstr(compareString, input) != nullptr)
 		{
 			delete[] compareString;
@@ -220,7 +242,7 @@ void Library::addBook(const Book& bookToAdd)
 {
 	resize();
 	mBooks[mCount] = new Book(bookToAdd);
-	ofstream bookOutputFile(bookToAdd.getFileName());
+	/*ofstream bookOutputFile(bookToAdd.getFileName());
 	cout << "Add contents of the book\n";
 	
 	if (bookOutputFile)
@@ -234,15 +256,23 @@ void Library::addBook(const Book& bookToAdd)
 	{
 		bookOutputFile.close();
 	}
-	catch (const std::exception&)
+	catch (ios::failure)
 	{
-
+		throw ""
 	}
-	
+	*/
 	ofstream savedBooks(getFileName());
 	if (savedBooks)
 	{
 		savedBooks << bookToAdd.getTitle() << endl;
+	}
+	try
+	{
+		savedBooks.close();
+	}
+	catch (ios::failure)
+	{
+		throw "Problem closing file";
 	}
 	++mCount;
 	

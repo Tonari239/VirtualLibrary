@@ -24,6 +24,7 @@ public:
 
 	UserList() = delete;
 	UserList(char* associatedFile);
+	UserList(const char* fileName);
 	UserList(const UserList& other);
 	~UserList();
 	UserList& operator=(const UserList& other);

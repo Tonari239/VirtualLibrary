@@ -24,9 +24,11 @@ class Library
 public:
 	Book** getBooks() const;
 	char* getFileName() const;
+	int getCount() const;
 
 	Library()=delete;
 	Library(char* fileName);
+	Library(const char* fileName);
 	Library(const Library& other);
 	~Library();
 	Library& operator=(const Library& other);

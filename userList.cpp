@@ -6,6 +6,7 @@ using namespace std;
 
 void UserList::copy(const UserList& other)
 {
+	mAssociatedFile = nullptr;
 	mCount = other.mCount;
 	mCapacity = other.mCapacity;
 	mUsers = new User * [mCapacity];
@@ -13,7 +14,7 @@ void UserList::copy(const UserList& other)
 	{
 		mUsers[i] = new User(*(other.mUsers[i])); // count is always less than capacity so no overflow will occur
 	}
-	copyString(mAssociatedFile, other.getAssociatedFile());
+	copyString(mAssociatedFile,other.getAssociatedFile());
 }
 void UserList::free()
 {
@@ -61,6 +62,15 @@ UserList::UserList(char* associatedFile)
 	mUsers = new User*[mCapacity];
 	copyString(mAssociatedFile, associatedFile);
 }
+
+UserList::UserList(const char* fileName)
+{
+	mCapacity = START_CAPACITY;
+	mCount = 0;
+	mUsers = new User * [mCapacity];
+	mAssociatedFile = nullptr;
+	copyString(mAssociatedFile, (char*)fileName);
+}
 UserList::UserList(const UserList& other)
 {
 	copy(other);
@@ -79,8 +89,6 @@ UserList& UserList::operator=(const UserList& other)
 	}
 	return *this;
 }
-
-
 
 
 User& UserList::find(char* userName) const
@@ -115,9 +123,9 @@ void UserList::addUser(const User& userToAdd)
 	{
 		outputFile.close();
 	}
-	catch (const std::exception&)
+	catch (ios::failure)
 	{
-
+		throw "Problem closing file";
 	}
 	++mCount;
 
