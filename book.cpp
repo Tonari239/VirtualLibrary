@@ -7,26 +7,33 @@ char* Book::getAuthor() const
 {
 	return mAuthor;
 }
+
 char* Book::getTitle() const
 {
 	return mTitle;
 }
+
 char* Book::getFileName() const
 {
 	return mFileName;
 }
+
 char* Book::getDescription() const
 {
 	return mDescription;
 }
+
 Rating Book::getRating() const
 {
 	return mRating;
 }
+
 unsigned Book::getISBN() const
 {
 	return mISBN;
 }
+
+
 
 void Book::setAuthor(char* author)
 {
@@ -36,6 +43,7 @@ void Book::setAuthor(char* author)
 	}
 	copyString(mAuthor, author);
 }
+
 void Book::setTitle(char* title)
 {
 	if (title == nullptr || (mTitle != nullptr && strcmp(this->getTitle(), title) == 0))
@@ -44,6 +52,7 @@ void Book::setTitle(char* title)
 	}
 	copyString(mTitle, title);
 }
+
 void Book::setFileName(char* fileName)
 {
 	if (fileName == nullptr || (mFileName != nullptr && strcmp(this->getFileName(), fileName) == 0))
@@ -52,6 +61,7 @@ void Book::setFileName(char* fileName)
 	}
 	copyString(mFileName, fileName);
 }
+
 void Book::setDescription(char* description)
 {
 	if (description == nullptr || (mDescription != nullptr && strcmp(this->getDescription(), description) == 0))
@@ -60,6 +70,7 @@ void Book::setDescription(char* description)
 	}
 	copyString(mDescription, description);
 }
+
 void Book::setRating(int rating)
 {
 	if (rating >= 1 && rating <= 5)
@@ -71,6 +82,7 @@ void Book::setRating(int rating)
 		mRating = Rating::UNRATED;
 	}
 }
+
 void Book::setISBN(unsigned ISBN)
 {
 	mISBN =ISBN;
@@ -83,6 +95,9 @@ void Book::setStringValuesToNullptr()
 	mFileName = nullptr;
 	mDescription = nullptr;
 }
+
+
+
 void Book::free()
 {
 	delete[] mAuthor;
@@ -90,6 +105,7 @@ void Book::free()
 	delete[] mFileName;
 	delete[] mDescription;
 }
+
 void Book::copy(const Book& other)
 {
 	setStringValuesToNullptr();
@@ -101,11 +117,14 @@ void Book::copy(const Book& other)
 	setISBN(other.getISBN());
 }
 
+
+
 Book::Book() :mAuthor(nullptr), mTitle(nullptr), mFileName(nullptr), mDescription(nullptr),mRating(Rating::UNRATED)
 {
 	++count;
 	setISBN(count);
 }
+
 Book::Book(char* author, char* title, char* fileName, char* description) : mRating(Rating::UNRATED)  
 {
 	setStringValuesToNullptr();
@@ -116,6 +135,7 @@ Book::Book(char* author, char* title, char* fileName, char* description) : mRati
 	setISBN(count);
 	++count;
 }
+
 Book::Book(const char* author, const char* title, const char* fileName, const char* description) :mRating(Rating::UNRATED)
 {
 	setStringValuesToNullptr();
@@ -126,6 +146,7 @@ Book::Book(const char* author, const char* title, const char* fileName, const ch
 	setDescription((char*)description);
 	setISBN(count);
 }
+
 Book::Book(const char* author, const char* title, const char* fileName, const char* description,Rating rating)
 {
 	setStringValuesToNullptr();
@@ -137,6 +158,7 @@ Book::Book(const char* author, const char* title, const char* fileName, const ch
 	setRating(rating);
 	setISBN(count);
 }
+
 Book::Book(char* author, char* title, char* fileName, char* description, Rating rating)
 {
 	setStringValuesToNullptr();
@@ -148,16 +170,13 @@ Book::Book(char* author, char* title, char* fileName, char* description, Rating 
 	setRating(rating);
 	setISBN(count);
 }
+
 Book::Book(const Book& other)
 {
 	copy(other);
 }
-Book::~Book()
-{
-	free(); 
-	// count won't be reduced because we use it only to generate a unique ISBN
-}
-Book::Book( Book&& other)
+
+Book::Book(Book&& other)
 {
 	mAuthor = other.mAuthor;
 	mFileName = other.mFileName;
@@ -170,6 +189,14 @@ Book::Book( Book&& other)
 	other.mDescription = nullptr;
 	other.mTitle = nullptr;
 }
+
+Book::~Book()
+{
+	free(); 
+	// count won't be reduced because we use it only to generate a unique ISBN
+}
+
+
 
 Book& Book::operator=(Book&& other)
 {
@@ -190,6 +217,7 @@ Book& Book::operator=(Book&& other)
 	}
 	return *this;
 }
+
 Book& Book::operator=(const Book& other)
 {
 	if (this != &other)
@@ -199,10 +227,12 @@ Book& Book::operator=(const Book& other)
 	}
 	return *this;
 }
+
 bool Book::operator==(const Book& other) const
 {
 	return this->getISBN() == other.getISBN();
 }
+
 ostream& operator<<(ostream& out,const Book& book)
 {
 	int authorLength = strlen(book.getAuthor());
@@ -219,10 +249,13 @@ ostream& operator<<(ostream& out,const Book& book)
 	return out;
 }
 
+
+
 void Book::print() const
 {
 	cout << getTitle() << ", " << getAuthor() << ", " << getISBN() << endl;
 }
+
 void Book::printDetailed() const
 {
 	cout << "____________" << endl;

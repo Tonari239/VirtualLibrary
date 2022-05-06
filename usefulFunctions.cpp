@@ -41,6 +41,7 @@ int sortPredicate()
 	delete[] criterion;
 	return result;
 }
+
 int findPredicate()
 {
 	cout << "What criterion would you like to search by?\n 1.Title 2.Author 3.ISBN 4.Description\n";
@@ -67,6 +68,7 @@ int findPredicate()
 	delete[] criterion;
 	return result;
 }
+
 bool sortPredicateAscension()
 {
 	cout << "What second criterion would you like to sort by?\n 1.Ascending 2.Descending\n";
@@ -75,8 +77,8 @@ bool sortPredicateAscension()
 	bool result = strcmp(criterion, "Ascending") == 0;
 	delete[] criterion;
 	return result;
-
 }
+
 bool validateCriterion(char* inputCriterion,const char** criteriaToCheck, int criteriaCount)
 {
 	bool isValidInput = false;
@@ -89,6 +91,7 @@ bool validateCriterion(char* inputCriterion,const char** criteriaToCheck, int cr
 	}
 	return isValidInput;
 }
+
 char* criterionInput(const char** criteriaToCheck,int criteriaCount)
 {
 	char input[MAX_LENGTH];
@@ -104,6 +107,7 @@ char* criterionInput(const char** criteriaToCheck,int criteriaCount)
 	} while (!validateCriterion(criterion, criteriaToCheck, criteriaCount));
 	return criterion;
 }
+
 void readByPages(istream& file)
 {
 	int pageCount;
@@ -118,6 +122,7 @@ void readByPages(istream& file)
 		++counter;
 	}
 }
+
 void readSentence(istream& file)
 {
 	char c;
@@ -129,6 +134,7 @@ void readSentence(istream& file)
 	file.get(c);
 	cout << c << " ";
 }
+
 void readBySentences(istream& file)
 {
 	int sentenceCount;
@@ -138,8 +144,8 @@ void readBySentences(istream& file)
 	{
 		readSentence(file);
 	}
-
 }
+
 char toLowerChar(char& c)
 {
 	if (c >= 'A' && c <= 'Z')
@@ -148,6 +154,7 @@ char toLowerChar(char& c)
 	}
 	return c;
 }
+
 char* toLowerString(char* input)
 {
 	int length = strlen(input) + 1;
@@ -157,6 +164,7 @@ char* toLowerString(char* input)
 	}
 	return input;
 }
+
 void setField(Book& book,const char* fieldName,void (Book::*function)(char* input)) 
 {
 	cout << "Enter input for " << fieldName << endl;
@@ -169,14 +177,13 @@ void setField(Book& book,const char* fieldName,void (Book::*function)(char* inpu
 	delete[] input;
 }
 
-//идеята е взаимствана от  https ://www.dreamincode.net/forums/topic/238072-censor-password-in-c/ , отговорът на потребител "staycrisp"
+//идеята е взаимствана от  https ://www.dreamincode.net/forums/topic/238072-censor-password-in-c/ , отговор на потребител "staycrisp"
 void enterPassword(char* input,char encryptChar)
 {
 	char inputChar='0';
 	int counter = 0;
 	while (inputChar != '\r')
 	{ 
-		// enable deleting/backspace
 		inputChar = _getch(); // used with  #include <conio.h>
 		if (inputChar == '\b' && counter != 0)
 		{
@@ -196,6 +203,7 @@ void enterPassword(char* input,char encryptChar)
 	input[counter] = '\0';
 	cout << endl;
 }
+
 bool authorize(const char* pass)
 {
 	bool isAuthorized = false;
@@ -219,7 +227,6 @@ bool charsAreOnlySpaces(char* buffer, int count)
 		{
 			return false;
 		}
-		
 	}
 	return true;
 }

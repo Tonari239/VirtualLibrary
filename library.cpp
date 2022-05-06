@@ -16,6 +16,7 @@ void Library::copy(const Library& other)
 	}
 	copyString(mAssociatedFile, other.getFileName());
 }
+
 void Library::free()
 {
 	for (int i = 0; i < mCount; i++)
@@ -26,6 +27,7 @@ void Library::free()
 	delete[] mBooks;
 	delete[] mAssociatedFile;
 }
+
 void Library::resize()
 {
 	if (mCount >=3.0/4*mCapacity)
@@ -42,18 +44,24 @@ void Library::resize()
 }
 
 
+
 Book** Library::getBooks() const
 {
 	return mBooks;
 }
+
 char* Library::getFileName() const
 {
 	return mAssociatedFile;
 }
+
 int Library::getCount() const
 {
 	return mCount;
 }
+
+
+
 
 Library::Library(char* fileName)
 {
@@ -77,6 +85,7 @@ Library::Library(const Library& other)
 {
 	copy(other);
 }
+
 Library::Library(Library&& other)
 {
 	mAssociatedFile = other.mAssociatedFile;
@@ -91,6 +100,7 @@ Library::Library(Library&& other)
 	mBooks = other.mBooks;
 	other.mBooks = nullptr;
 }
+
 Library::~Library()
 {
 	for (int i = 0; i < mCount; i++)
@@ -100,6 +110,9 @@ Library::~Library()
 	}
 	delete[] mBooks;
 }
+
+
+
 Library& Library::operator=(const Library& other)
 {
 	if (this != &other)
@@ -109,6 +122,7 @@ Library& Library::operator=(const Library& other)
 	}
 	return *this;
 }
+
 Library& Library::operator=(Library&& other)
 {
 	if (this != &other)
@@ -129,6 +143,9 @@ Library& Library::operator=(Library&& other)
 	return *this;
 }
 
+
+
+
 void Library::sortByString(char* (Book::* function)() const) // 1-> ascending 0 -> descending
 {
 	int mode = sortPredicateAscension();
@@ -147,6 +164,7 @@ void Library::sortByString(char* (Book::* function)() const) // 1-> ascending 0 
 		}
 	}
 }
+
 void Library::sortByRating()
 {
 	int mode = sortPredicateAscension();
@@ -166,6 +184,7 @@ void Library::sortByRating()
 	}
 
 }
+
 void Library::sort()
 {
 	int predicateResult = sortPredicate(); // 1->Title; 2->Author; 3->Rating
@@ -183,6 +202,7 @@ void Library::sort()
 	}
 	print();
 }
+
 
 
 int Library::findByString(char* input, char* (Book::* function)() const) const
@@ -203,6 +223,7 @@ int Library::findByString(char* input, char* (Book::* function)() const) const
 	}
 	return -1;
 }
+
 int Library::findByISBN(char* input) const
 {
 	for (int i = 0; i < mCount; i++)
@@ -214,6 +235,7 @@ int Library::findByISBN(char* input) const
 	}
 	return -1;
 }
+
 int Library::findByDescription(char* input) const
 {
 	for (int i = 0; i < mCount; i++)
@@ -231,6 +253,7 @@ int Library::findByDescription(char* input) const
 	}
 	return -1;
 }
+
 Book& Library::findBy() const
 {
 	int criterion = findPredicate();
@@ -264,17 +287,19 @@ Book& Library::findBy() const
 	delete[] input;
 	return *mBooks[bookIndex];
 }
+
 void Library::find() const
 {
 	findBy().printDetailed();
 }
 
 
+
 void Library::addBook(const Book& bookToAdd)
 {
 	resize();
 	mBooks[mCount] = new Book(bookToAdd);
-	/*ofstream bookOutputFile(bookToAdd.getFileName());
+	ofstream bookOutputFile(bookToAdd.getFileName());
 	cout << "Add contents of the book\n";
 
 	if (bookOutputFile)
@@ -290,9 +315,9 @@ void Library::addBook(const Book& bookToAdd)
 	}
 	catch (ios::failure)
 	{
-		throw ""
+		throw "Problem closing file";
 	}
-	*/
+	
 	ofstream savedBooksWriting(getFileName(), ios::app);
 	char buffer[MAX_LENGTH];
 	if (savedBooksWriting)
@@ -310,9 +335,8 @@ void Library::addBook(const Book& bookToAdd)
 		throw "Problem closing file";
 	}
 	++mCount;
-
-	
 }
+
 void Library::removeBook(const Book& bookToRemove)
 {
 	int removeIndex = 0;
@@ -346,7 +370,6 @@ void Library::removeBook(const Book& bookToRemove)
 			{
 				booksList << " "; // instead of the name of the book, we write empty space;
 			}
-			/*booksList << endl;*/
 			booksList.seekg(ios::beg);
 			booksList.seekp(currGetPosition);
 			break;
@@ -360,7 +383,7 @@ void Library::removeBook(const Book& bookToRemove)
 	{
 		throw "Cannot close file!";
 	}
-	/*cout << "Would you like to delete file associated with the book? \nY/N\n";
+	cout << "Would you like to delete file associated with the book? \nY/N\n";
 	char input;
 	cin >> input;
 	while(input != 'Y' && input != 'N')
@@ -371,8 +394,9 @@ void Library::removeBook(const Book& bookToRemove)
 	if (input == 'Y')
 	{
 		remove(bookToRemove.getFileName());
-	}*/
+	}
 }
+
 void Library::displayBook(const Book& book) const
 {
 	int mode; //1->by pages 2->by sentences;
@@ -393,6 +417,7 @@ void Library::displayBook(const Book& book) const
 		readBySentences(file);
 	}
 }
+
 void Library::print() const
 {
 	for (int i = 0; i < mCount; i++)

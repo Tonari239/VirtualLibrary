@@ -12,7 +12,6 @@ TEST_SUITE("Useful functions")
 		copyString(destination, source);
 
 		CHECK(destination == nullptr);
-		
 	}
 
 	TEST_CASE("Copy string accepting nullptr as destination")

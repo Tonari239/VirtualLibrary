@@ -51,10 +51,12 @@ public:
 	Book(const Book& other);
 	Book(Book&& other);
 	~Book();
+
 	Book& operator=(const Book& other);
 	Book& operator=(Book&& other);
 	bool operator==(const Book& other) const;
 	friend ostream& operator<<(ostream& out,const Book& book);
+
 	void print() const;
 	void printDetailed() const;
 	

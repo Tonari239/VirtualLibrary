@@ -1,8 +1,12 @@
 
+#include <fstream>
+
 #include "doctest.h"
 #include "library.h"
 #include "userList.h"
 
+#include <iostream>
+using namespace std;
 TEST_SUITE("Library Tests")
 {
 		
@@ -73,7 +77,7 @@ TEST_SUITE("Library Tests")
 
 	TEST_CASE("Remove")
 	{
-		//this test works with user imput which is why its commented, uncomment to check
+		//this test works with user input which is why its commented, uncomment to check
 		/*Library l1("file.txt");
 		l1.addBook(Book("Agatha Christie", "ABC murders", "murders.txt", "Murder mystery"));
 		l1.addBook(Book("Mikhail Bulgakov", "Master and margarita", "master.txt", "A story about a witch, the devil and his subordinates"));
@@ -107,7 +111,6 @@ TEST_SUITE("Library Tests")
 		l1.addBook(Book("Agatha Christie", "The murder of Roger Ackroyd", "roger.txt", "A wealthy man is murdered"));
 		l1.addBook(Book("Charles Dickens", "Great expectations", "expectations.txt", "Young pip is seduced by the riches the high-life offers him"));
 		l1.sort();*/
-		
 	}
 
 	TEST_CASE("Find By")
@@ -126,7 +129,6 @@ TEST_SUITE("Library Tests")
 		//l1.addBook(Book("Charles Dickens", "Great expectations", "expectations.txt", "Young pip is seduced by the riches the high-life offers him"));
 		//Book b = l1.findBy();
 		//DOCTEST_CHECK_THROWS(l1.find());// check with wrong input
-
 	}
 
 	TEST_CASE("Remove deletes book name from file with available books")
@@ -138,5 +140,21 @@ TEST_SUITE("Library Tests")
 		l1.addBook(Book("Plato", "The symposium", "symposium.txt", "Philosophers' takes on love"));
 		l1.removeBook(b1);
 		l1.addBook(Book("Agatha Christie", "Murder on Orient Express", "orientExpress.txt", "A wealthy mafioso is murdered on a train"));
+		ifstream file(l1.getFileName());
+		bool nameIsContained = false;
+		if (file.is_open())
+		{
+			char buffer[1024];
+			while (!file.eof())
+			{
+				file.getline(buffer, 1024);
+				if (strcmp(buffer,b1.getTitle())==0)
+				{
+					nameIsContained = true;
+					break;
+				}
+			}
+		}
+		CHECK(nameIsContained == false);
 	}
 }

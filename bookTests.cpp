@@ -11,7 +11,6 @@ TEST_SUITE("Book tests")
         CHECK(b.getFileName() == nullptr);
         CHECK(b.getDescription() == nullptr);
         CHECK(b.getRating() == Rating::UNRATED);
-
 	}
 
     TEST_CASE("Contructor with constant char* test")
@@ -31,7 +30,6 @@ TEST_SUITE("Book tests")
         CHECK(strcmp(b2.getFileName(), "margarita.txt") == 0);
         CHECK(strcmp(b2.getDescription(), "A story about a witch, the devil and his subordinates") == 0);
         CHECK(b2.getRating() == Rating::EXCELLENT);
-
     }
 
     TEST_CASE("Contructor with dynamic char* test")
@@ -105,7 +103,6 @@ TEST_SUITE("Book tests")
         CHECK(strcmp(b2.getDescription(), "Murder mystery") == 0);
         CHECK(b2.getRating() != Rating::BAD);
         CHECK(b2.getRating() == Rating::UNRATED);
-
     }
 
     TEST_CASE("Move contructor test")

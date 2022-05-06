@@ -9,7 +9,6 @@ TEST_SUITE("User tests")
         CHECK(u1.getUsername() == nullptr);
         CHECK(u1.getPassword() == nullptr);
         CHECK(u1.getAdminStatus() == false);
-        
     }
 
     TEST_CASE("Contructor with constant char* test")
@@ -26,7 +25,6 @@ TEST_SUITE("User tests")
         CHECK(strcmp(u2.getPassword(), "124") != 0);
         CHECK(u2.getAdminStatus() != true);
         CHECK(u2.getAdminStatus() == false);
-
     }
 
     TEST_CASE("Contructor with dynamic char* test")
@@ -50,11 +48,8 @@ TEST_SUITE("User tests")
         CHECK(u2.getAdminStatus() == false);
 
         
-       
-
         delete[] userName;
         delete[] password;
-
     }
 
     TEST_CASE("Copy contructor test")
@@ -94,7 +89,6 @@ TEST_SUITE("User tests")
         CHECK(strcmp(u2.getPassword(), "124") != 0);
         CHECK(u2.getAdminStatus() != true);
         CHECK(u2.getAdminStatus() == false);
-
     }
 
     TEST_CASE("Operator = test for moving objects")
@@ -127,7 +121,6 @@ TEST_SUITE("User tests")
         CHECK(strcmp(u.getUsername(), "guest") == 0);
         CHECK(strcmp(u.getPassword(), "123") == 0);
         CHECK(u.getAdminStatus() == false);
-
     }
 
 }

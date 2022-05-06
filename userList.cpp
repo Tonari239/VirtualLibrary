@@ -16,6 +16,7 @@ void UserList::copy(const UserList& other)
 	}
 	copyString(mAssociatedFile,other.getAssociatedFile());
 }
+
 void UserList::free()
 {
 	for (int i = 0; i < mCount; i++)
@@ -26,6 +27,7 @@ void UserList::free()
 	remove(getAssociatedFile());
 	delete[] mAssociatedFile;
 }
+
 void UserList::resize()
 {
 	if (mCount >= 3.0 / 4 * mCapacity)
@@ -42,18 +44,23 @@ void UserList::resize()
 }
 
 
+
 User** UserList::getUsers() const
 {
 	return mUsers;
 }
+
 int UserList::getCount() const
 {
 	return mCount;
 }
+
 char* UserList::getAssociatedFile() const
 {
 	return mAssociatedFile;
 }
+
+
 
 UserList::UserList(char* associatedFile)
 {
@@ -71,10 +78,12 @@ UserList::UserList(const char* fileName)
 	mAssociatedFile = nullptr;
 	copyString(mAssociatedFile, (char*)fileName);
 }
+
 UserList::UserList(const UserList& other)
 {
 	copy(other);
 }
+
 UserList::UserList(UserList&& other)
 {
 	mAssociatedFile = other.mAssociatedFile;
@@ -89,10 +98,13 @@ UserList::UserList(UserList&& other)
 	mUsers = other.mUsers;
 	other.mUsers = nullptr;
 }
+
 UserList::~UserList()
 {
 	free();
 }
+
+
 
 UserList& UserList::operator=(const UserList& other)
 {
@@ -103,6 +115,7 @@ UserList& UserList::operator=(const UserList& other)
 	}
 	return *this;
 }
+
 UserList& UserList::operator=(UserList&& other)
 {
 	if (this!=&other)
@@ -123,6 +136,8 @@ UserList& UserList::operator=(UserList&& other)
 	return *this;
 }
 
+
+
 User& UserList::find(char* userName) const
 {
 	int foundIndex = -1;
@@ -139,7 +154,6 @@ User& UserList::find(char* userName) const
 		throw "Not found!";
 	}
 }
-
 
 void UserList::addUser(const User& userToAdd)
 {
@@ -160,7 +174,6 @@ void UserList::addUser(const User& userToAdd)
 		throw "Problem closing file";
 	}
 	++mCount;
-
 }
 
 ostream& operator<<(ostream& out, const UserList& list)
