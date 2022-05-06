@@ -345,15 +345,10 @@ void Library::removeBook(const Book& bookToRemove)
 		if ((*mBooks[i])==bookToRemove)
 		{
 			removeIndex = i;
+			break;
 		}
 	}
-	delete mBooks[removeIndex];
-	for (int i = removeIndex; i < mCount; i++)
-	{
-		mBooks[i] = mBooks[i+1];
-	}
-	--mCount;
-
+	
 	fstream booksList(this->getFileName());
 	char buffer[MAX_LENGTH];
 	while (!booksList.eof())
@@ -395,6 +390,12 @@ void Library::removeBook(const Book& bookToRemove)
 	{
 		remove(bookToRemove.getFileName());
 	}
+	delete mBooks[removeIndex]; 
+	for (int i = removeIndex; i < mCount; i++)
+	{
+		mBooks[i] = mBooks[i + 1];
+	}
+	--mCount;
 }
 
 void Library::displayBook(const Book& book) const

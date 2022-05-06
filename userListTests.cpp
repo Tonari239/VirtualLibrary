@@ -70,7 +70,7 @@ TEST_SUITE("User List Tests")
 		CHECK(l1.getCount() == 7);
 	}
 	
-	TEST_CASE("Find")
+	TEST_CASE("Find Index")
 	{
 		UserList l1("file.txt");
 		l1.addUser(User("gosho"));
@@ -80,12 +80,12 @@ TEST_SUITE("User List Tests")
 		l1.addUser(User("another"));
 		l1.addUser(User("toon239"));
 		l1.addUser(User("new", "user"));
-		User user1 = l1.find((char*)"Pencho");
+		User user1 = *l1.getUsers()[l1.findIndex((char*)"Pencho")];
 		CHECK(strcmp("Pencho", user1.getUsername())==0);
-		User user2 = l1.find((char*)"toon239");
+		User user2 = *l1.getUsers()[l1.findIndex((char*)"toon239")];
 		CHECK(strcmp("toon239", user2.getUsername()) == 0);
 
-		DOCTEST_CHECK_THROWS(l1.find((char*)"No such user"));
+		CHECK(l1.findIndex((char*)"No such user")==-1);
 	}
 
 }

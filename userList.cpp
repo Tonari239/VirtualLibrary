@@ -138,7 +138,7 @@ UserList& UserList::operator=(UserList&& other)
 
 
 
-User& UserList::find(char* userName) const
+int UserList::findIndex(char* userName) const
 {
 	int foundIndex = -1;
 	for (int i = 0; i < mCount; i++)
@@ -146,23 +146,14 @@ User& UserList::find(char* userName) const
 		if (strcmp(userName, (*mUsers[i]).getUsername()) == 0)
 		{
 			foundIndex = i;
-			return *mUsers[foundIndex];
 		}
 	}
-	if (foundIndex == -1)
-	{
-		throw "Not found!";
-	}
+	return foundIndex;
 }
 
 void UserList::addUser(const User& userToAdd)
 {
 	resize();
-	for (int i = 0; i < mCount; i++)
-	{
-		if (*mUsers[i] == userToAdd);
-		return;
-	}
 	mUsers[mCount] = new User(userToAdd);
 	ofstream outputFile(getAssociatedFile());;
 

@@ -32,7 +32,7 @@ public:
 	UserList& operator=(UserList&& other);
 
 	void addUser(const User& userToAdd);
-	User& find(char* userName) const;
+	int findIndex(char* userName) const;
 	friend ostream& operator<<(ostream& out, const UserList& list);
 };
 

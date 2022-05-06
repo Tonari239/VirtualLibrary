@@ -230,7 +230,7 @@ Book& Book::operator=(const Book& other)
 
 bool Book::operator==(const Book& other) const
 {
-	return this->getISBN() == other.getISBN();
+	return strcmp(getAuthor(),other.getAuthor())==0 && strcmp(getTitle(),other.getTitle())==0;
 }
 
 ostream& operator<<(ostream& out,const Book& book)

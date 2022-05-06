@@ -53,7 +53,7 @@ int main(int argc, char** argv)
 		strcpy(command, input);
 		if (strcmp(command, "help") == 0)
 		{
-			cout << "1.login\n2.sort\n3.find\n4.add\n5.remove\n6.display\n7.exit\n";
+			cout << "1.login\n2.register\n3.sort\n4.find\n5.add\n6.remove\n7.display\n8.exit\n";
 		}
 		else if (strcmp(command, "login") == 0)
 		{
@@ -61,17 +61,40 @@ int main(int argc, char** argv)
 			char* userNameInput = nullptr;
 			cin.getline(input, MAX_LENGTH);
 			copyString(userNameInput, input);
-			cout << endl;
+			if (registeredUsers.findIndex(userNameInput) == -1)
+			{
+				cout << "No such user exists! Operation failed" << endl;
+				continue;
+			}
 			cout << "Enter password: ";
 			char passwordInput[MAX_LENGTH];
 			enterPassword(passwordInput, '*');
 			User u(userNameInput, passwordInput);
-			if (u == admin)
+			
+			currentUser=u; 
+			if (currentUser == admin)
 			{
-				u.setAdminStatus(true);
+				currentUser.setAdminStatus(true);
 			}
+			delete[] userNameInput;
+		}
+		else if (strcmp(command, "register") == 0)
+		{
+			cout << "Enter username: ";
+			char* userNameInput = nullptr;
+			cin.getline(input, MAX_LENGTH);
+			copyString(userNameInput, input);
+			if (registeredUsers.findIndex(userNameInput)!=-1)
+			{
+				cout << "User with this name already exists! Operation failed" << endl;
+				continue;
+			}
+			cout << "Enter password: ";
+			char passwordInput[MAX_LENGTH];
+			enterPassword(passwordInput, '*');
+			User u(userNameInput, passwordInput);
+			
 			registeredUsers.addUser(u);
-			currentUser=u;
 			delete[] userNameInput;
 		}
 		else if (strcmp(command, "sort") == 0)
@@ -112,7 +135,7 @@ int main(int argc, char** argv)
 		{
 			library.displayBook(library.findBy());
 		}
-		else
+		else if (strcmp(command, "exit") != 0)
 		{
 			cout << "Invalid command, enter \"help\"\n";
 		}
