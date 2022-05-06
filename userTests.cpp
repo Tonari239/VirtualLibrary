@@ -69,6 +69,20 @@ TEST_SUITE("User tests")
         CHECK(u2.getAdminStatus() == false);
     }
 
+    TEST_CASE("Move constructor test")
+    {
+        
+        User u1("Admin", "123");
+        User u2(std::move(u1));
+        //checks for created object
+        CHECK(strcmp(u2.getUsername(), "Admin") == 0);
+        CHECK(strcmp(u2.getPassword(), "123") == 0);
+
+        //checks for moved object
+        CHECK(u1.getUsername() == nullptr);
+        CHECK(u1.getPassword() == nullptr);
+    }
+
     TEST_CASE("Operator = test")
     {
         User u1("guest", "123");
@@ -81,6 +95,19 @@ TEST_SUITE("User tests")
         CHECK(u2.getAdminStatus() != true);
         CHECK(u2.getAdminStatus() == false);
 
+    }
+
+    TEST_CASE("Operator = test for moving objects")
+    {
+        User u1("Admin", "123");
+        User u2("guest");
+        u2 = std::move(u1);
+        CHECK(strcmp(u2.getUsername(), "Admin") == 0);
+        CHECK(strcmp(u2.getPassword(), "123") == 0);
+
+        //checks for moved object
+        CHECK(u1.getUsername() == nullptr);
+        CHECK(u1.getPassword() == nullptr);
     }
 
     TEST_CASE("Setters test")

@@ -1,6 +1,7 @@
 
 #include "doctest.h"
 #include "library.h"
+#include "userList.h"
 
 TEST_SUITE("Library Tests")
 {
@@ -11,6 +12,19 @@ TEST_SUITE("Library Tests")
 		Library l2(l1);
 		CHECK(CHECK(strcmp(l1.getFileName(), l2.getFileName()) == 0));
 		CHECK(l2.getBooks() != nullptr);
+	}
+
+	TEST_CASE("Move constructor")
+	{
+		Library l1("books.txt");
+		Library l2(std::move(l1));
+
+		//checks for created object
+		CHECK(strcmp(l2.getFileName(), "books.txt") == 0);
+
+		//checks for moved object
+		CHECK(l1.getFileName() == nullptr);
+		CHECK(l1.getBooks() == nullptr);
 	}
 
 	TEST_CASE("Getters")
@@ -29,9 +43,21 @@ TEST_SUITE("Library Tests")
 		CHECK(l2.getBooks() != nullptr);
 	}
 
+	TEST_CASE("Operator = for moving ojects")
+	{
+		Library l1("books.txt");
+		Library l2("other.txt");
+		l2 = (std::move(l1));
+
+		CHECK(strcmp(l2.getFileName(), "books.txt") == 0);
+
+		CHECK(l1.getFileName() == nullptr);
+		CHECK(l1.getBooks() == nullptr);
+	}
+
 	TEST_CASE("Add book")
 	{
-		Library l1("file.txt");
+		/*Library l1("file.txt");
 		CHECK(l1.getCount() == 0);
 		l1.addBook(Book("Agatha Christie", "ABC murders", "murders.txt", "Murder mystery"));
 		l1.addBook(Book("Mikhail Bulgakov", "Master and margarita", "master.txt", "A story about a witch, the devil and his subordinates"));
@@ -42,7 +68,7 @@ TEST_SUITE("Library Tests")
 		CHECK(l1.getCount() == 5);
 		l1.addBook(Book("Agatha Christie", "The murder of Roger Ackroyd", "roger.txt", "A wealthy man is murdered"));
 		l1.addBook(Book("Charles Dickens", "Great expectations", "expectations.txt", "Young pip is seduced by the riches the high-life offers him"));
-		CHECK(l1.getCount() == 7);
+		CHECK(l1.getCount() == 7);*/
 	}
 
 	TEST_CASE("Remove")
@@ -102,5 +128,15 @@ TEST_SUITE("Library Tests")
 		//DOCTEST_CHECK_THROWS(l1.find());// check with wrong input
 
 	}
-	
+
+	TEST_CASE("Remove deletes book name from file with available books")
+	{
+		Library l1("file.txt");
+		Book b1("Luke Rhinehart", "The dice man", "dice.txt", "A story of a bored psychiatrist who seeks to break the norm and succumbs to insanity");
+		l1.addBook(Book("Agatha Christie", "ABC murders", "murders.txt", "Murder mystery"));
+		l1.addBook(b1);
+		l1.addBook(Book("Plato", "The symposium", "symposium.txt", "Philosophers' takes on love"));
+		l1.removeBook(b1);
+		l1.addBook(Book("Agatha Christie", "Murder on Orient Express", "orientExpress.txt", "A wealthy mafioso is murdered on a train"));
+	}
 }

@@ -4,12 +4,25 @@
 TEST_SUITE("User List Tests")
 {
 
-	TEST_CASE("Copy constructor")
+	TEST_CASE("Copy constructor test")
 	{
 		UserList l1("file.txt");
 		UserList l2(l1);
 		CHECK(CHECK(strcmp(l1.getAssociatedFile(), l2.getAssociatedFile()) == 0));
 		CHECK(l2.getAssociatedFile() != nullptr);
+	}
+
+	TEST_CASE("Move constructor test")
+	{
+		UserList ul1("users.txt");
+		UserList ul2(std::move(ul1));
+
+		//checks for created object
+		CHECK(strcmp(ul2.getAssociatedFile(),"users.txt")==0);
+
+		//checks for moved object
+		CHECK(ul1.getAssociatedFile() == nullptr);
+		CHECK(ul1.getUsers() == nullptr);
 	}
 
 	TEST_CASE("Getters")
@@ -27,6 +40,18 @@ TEST_SUITE("User List Tests")
 		l2 = l1;
 		CHECK(CHECK(strcmp(l1.getAssociatedFile(), l2.getAssociatedFile()) == 0));
 		CHECK(l2.getUsers() != nullptr);
+	}
+
+	TEST_CASE("Operator = for moving ojects")
+	{
+		UserList ul1("users.txt");
+		UserList ul2("other.txt");
+		ul2=(std::move(ul1));
+		
+		CHECK(strcmp(ul2.getAssociatedFile(), "users.txt") == 0);
+
+		CHECK(ul1.getAssociatedFile() == nullptr);
+		CHECK(ul1.getUsers() == nullptr);
 	}
 
 	TEST_CASE("Add user")

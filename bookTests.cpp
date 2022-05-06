@@ -108,6 +108,26 @@ TEST_SUITE("Book tests")
 
     }
 
+    TEST_CASE("Move contructor test")
+	{
+        Book b1("Agatha Christie", "ABC murders", "abc.txt", "Murder mystery");
+        Book b2(std::move(b1));
+
+        //checks for created object
+        CHECK(strcmp(b2.getAuthor(), "Agatha Christie") == 0);
+        CHECK(strcmp(b2.getTitle(), "ABC murders") == 0);
+        CHECK(strcmp(b2.getFileName(), "abc.txt") == 0);
+        CHECK(strcmp(b2.getDescription(), "Murder mystery") == 0);
+        CHECK(b2.getRating() != Rating::BAD);
+        CHECK(b2.getRating() == Rating::UNRATED);
+
+        //checks for moved object
+        CHECK(b1.getAuthor() == nullptr);
+        CHECK(b1.getTitle() == nullptr);
+        CHECK(b1.getFileName() == nullptr);
+        CHECK(b1.getDescription() == nullptr);
+	}
+
     TEST_CASE("Operator = test")
     {
         Book b1;
@@ -115,6 +135,25 @@ TEST_SUITE("Book tests")
         b1 = b2;
         CHECK(b1 == b2);
     }
+
+    TEST_CASE("Operator = test for moving objects")
+	{
+        Book b1("Agatha Christie", "ABC murders", "abc.txt", "Murder mystery");
+        Book b2("Plato", "The symposium", "symposium.txt", "Philosophers' takes on love");
+        b2 = std::move(b1);
+        CHECK(strcmp(b2.getAuthor(), "Agatha Christie") == 0);
+        CHECK(strcmp(b2.getTitle(), "ABC murders") == 0);
+        CHECK(strcmp(b2.getFileName(), "abc.txt") == 0);
+        CHECK(strcmp(b2.getDescription(), "Murder mystery") == 0);
+        CHECK(b2.getRating() != Rating::BAD);
+        CHECK(b2.getRating() == Rating::UNRATED);
+
+        //checks for moved object
+        CHECK(b1.getAuthor() == nullptr);
+        CHECK(b1.getTitle() == nullptr);
+        CHECK(b1.getFileName() == nullptr);
+        CHECK(b1.getDescription() == nullptr);
+	}
 
     TEST_CASE("Operator == test")
     {
