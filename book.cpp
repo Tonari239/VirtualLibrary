@@ -157,7 +157,39 @@ Book::~Book()
 	free(); 
 	// count won't be reduced because we use it only to generate a unique ISBN
 }
+Book::Book( Book&& other)
+{
+	mAuthor = other.mAuthor;
+	mFileName = other.mFileName;
+	mDescription = other.mDescription;
+	mTitle = other.mTitle;
+	mRating = other.mRating;
+	mISBN = other.mISBN;
+	other.mAuthor = nullptr;
+	other.mFileName = nullptr;
+	other.mDescription = nullptr;
+	other.mTitle = nullptr;
+}
 
+Book& Book::operator=(Book&& other)
+{
+	if (this != &other)
+	{
+		free();
+
+		mAuthor = other.mAuthor;
+		mFileName = other.mFileName;
+		mDescription = other.mDescription;
+		mTitle = other.mTitle;
+		mRating = other.mRating;
+		mISBN = other.mISBN;
+		other.mAuthor = nullptr;
+		other.mFileName = nullptr;
+		other.mDescription = nullptr;
+		other.mTitle = nullptr;
+	}
+	return *this;
+}
 Book& Book::operator=(const Book& other)
 {
 	if (this != &other)

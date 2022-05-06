@@ -56,12 +56,35 @@ User::User(const User& other)
 	mIsAdmin = false;
 	copy(other);
 }
+User::User(User&& other)
+{
+	mPassword = other.mPassword;
+	mIsAdmin = other.getAdminStatus();
+	mUserName = other.mUserName;
+	other.mPassword = nullptr;
+	other.mUserName = nullptr;
+}
+
 User& User::operator=(const User& other)
 {
 	if (this != &other)
 	{
 		free();
 		copy(other);
+	}
+	return *this;
+}
+
+User& User::operator=(User&& other)
+{
+	if (this!=&other)
+	{
+		free();
+		mPassword = other.mPassword;
+		mIsAdmin = other.getAdminStatus();
+		mUserName = other.mUserName;
+		other.mPassword = nullptr;
+		other.mUserName = nullptr;
 	}
 	return *this;
 }
@@ -91,6 +114,8 @@ void User::setAdminStatus(bool status)
 	mIsAdmin = status;
 }
 
+
+
 void User::setUsername(char* userName)
 {
 	if (userName == nullptr || (mUserName != nullptr && strcmp(this->getUsername(), userName) == 0))
@@ -107,7 +132,6 @@ void User::setPassword(char* password)
 	}
 	copyString(mPassword, password);
 }
-
 
 ostream& operator<<(ostream& out, const User& user)
 {

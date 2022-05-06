@@ -16,7 +16,6 @@ class UserList
 	void copy(const UserList& other);
 	void free();
 	void resize();
-
 public:
 	User** getUsers() const;
 	int getCount() const;
@@ -26,8 +25,11 @@ public:
 	UserList(char* associatedFile);
 	UserList(const char* fileName);
 	UserList(const UserList& other);
+	UserList(UserList&& other);
 	~UserList();
+
 	UserList& operator=(const UserList& other);
+	UserList& operator=(UserList&& other);
 
 	void addUser(const User& userToAdd);
 	User& find(char* userName) const;

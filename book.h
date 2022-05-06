@@ -49,8 +49,10 @@ public:
 	Book(const char* author, const char* title, const char* fileName, const char* description);
 	Book(const char* author, const char* title, const char* fileName, const char* description, Rating rating);
 	Book(const Book& other);
+	Book(Book&& other);
 	~Book();
 	Book& operator=(const Book& other);
+	Book& operator=(Book&& other);
 	bool operator==(const Book& other) const;
 	friend ostream& operator<<(ostream& out,const Book& book);
 	void print() const;

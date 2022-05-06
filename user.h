@@ -19,6 +19,8 @@ public:
 	User(const char* userName);
 	User(const char* userName, const char* password);
 	User(const User& other);
+	User(User&& other);
+	User& operator=(User&& other);
 	User& operator=(const User& other);
 	bool operator==(const User& other) const;
 	~User();

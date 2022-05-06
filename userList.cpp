@@ -75,6 +75,20 @@ UserList::UserList(const UserList& other)
 {
 	copy(other);
 }
+UserList::UserList(UserList&& other)
+{
+	mAssociatedFile = other.mAssociatedFile;
+	other.mAssociatedFile = nullptr;
+	mCapacity = other.mCapacity;
+	mCount = other.mCount;
+	for (int i = 0; i < mCount; i++)
+	{
+		mUsers[i] = other.mUsers[i];
+		other.mUsers[i] = nullptr;
+	}
+	mUsers = other.mUsers;
+	other.mUsers = nullptr;
+}
 UserList::~UserList()
 {
 	free();
@@ -89,7 +103,25 @@ UserList& UserList::operator=(const UserList& other)
 	}
 	return *this;
 }
-
+UserList& UserList::operator=(UserList&& other)
+{
+	if (this!=&other)
+	{
+		free();
+		mAssociatedFile = other.mAssociatedFile;
+		other.mAssociatedFile = nullptr;
+		mCapacity = other.mCapacity;
+		mCount = other.mCount;
+		for (int i = 0; i < mCount; i++)
+		{
+			mUsers[i] = other.mUsers[i];
+			other.mUsers[i] = nullptr;
+		}
+		mUsers = other.mUsers;
+		other.mUsers = nullptr;
+	}
+	return *this;
+}
 
 User& UserList::find(char* userName) const
 {

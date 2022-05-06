@@ -30,8 +30,10 @@ public:
 	Library(char* fileName);
 	Library(const char* fileName);
 	Library(const Library& other);
+	Library(Library&& other);
 	~Library();
 	Library& operator=(const Library& other);
+	Library& operator=(Library&& other);
 	
 	
 	void addBook(const Book& bookToAdd); 
