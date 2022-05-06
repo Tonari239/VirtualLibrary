@@ -158,6 +158,11 @@ User& UserList::find(char* userName) const
 void UserList::addUser(const User& userToAdd)
 {
 	resize();
+	for (int i = 0; i < mCount; i++)
+	{
+		if (*mUsers[i] == userToAdd);
+		return;
+	}
 	mUsers[mCount] = new User(userToAdd);
 	ofstream outputFile(getAssociatedFile());;
 

@@ -150,7 +150,7 @@ User& User::operator=(User&& other)
 
 bool User::operator==(const User& other) const
 {
-	return this->getUsername() == other.getUsername() && this->getPassword() == other.getPassword();
+	return strcmp(this->getUsername(),other.getUsername())==0 && strcmp(this->getPassword(),other.getPassword()) == 0;
 }
 
 ostream& operator<<(ostream& out, const User& user)

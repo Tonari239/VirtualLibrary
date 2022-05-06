@@ -1,4 +1,4 @@
-//#define DOCTEST_CONFIG_IMPLEMENT
+#define DOCTEST_CONFIG_IMPLEMENT
 #include  "doctest.h"
 #include "library.h"
 #include <iostream>
@@ -63,17 +63,16 @@ int main(int argc, char** argv)
 			copyString(userNameInput, input);
 			cout << endl;
 			cout << "Enter password: ";
-			char* passwordInput = nullptr;
-			cin.getline(input, MAX_LENGTH);
-			copyString(passwordInput, input);
+			char passwordInput[MAX_LENGTH];
+			enterPassword(passwordInput, '*');
 			User u(userNameInput, passwordInput);
 			if (u == admin)
 			{
 				u.setAdminStatus(true);
 			}
 			registeredUsers.addUser(u);
+			currentUser=u;
 			delete[] userNameInput;
-			delete[] passwordInput;
 		}
 		else if (strcmp(command, "sort") == 0)
 		{
@@ -87,7 +86,7 @@ int main(int argc, char** argv)
 		}
 		else if (strcmp(command, "add") == 0)
 		{
-			if (currentUser == admin || authorize(admin.getPassword()))
+			if (currentUser.getAdminStatus() || authorize(admin.getPassword()))
 			{
 				Book book;
 				setField(book, "Title", &(Book::setTitle));
