@@ -118,9 +118,10 @@ void readByPages(istream& file)
 	{
 		char buff[MAX_LENGTH];
 		file.getline(buff, MAX_LENGTH);
-		cout << buff << endl;
+		cout << buff;
 		++counter;
 	}
+	cout << " "; // printing the pause
 }
 
 void readSentence(istream& file)
@@ -131,8 +132,10 @@ void readSentence(istream& file)
 		file.get(c);
 		cout << c;
 	}
-	file.get(c);
-	cout << c << " ";
+	file.get(c); // reading the delimiter
+	cout << c;
+	file.get(c); //reading the interval
+	cout << c;
 }
 
 void readBySentences(istream& file)

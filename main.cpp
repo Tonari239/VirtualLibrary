@@ -133,6 +133,7 @@ int main(int argc, char** argv)
 		}
 		else if (strcmp(command, "display") == 0)
 		{
+
 			library.displayBook(library.findBy());
 		}
 		else if (strcmp(command, "exit") != 0)
