@@ -20,5 +20,6 @@ void readSentence(istream& file);
 void setField(Book& book,const char* fieldName, void (Book::* function)(char* input));
 void enterPassword(char* input, char encryptChar);
 bool authorize(const char* pass);
+bool charsAreOnlySpaces(char* buffer, int count);
 
 #endif
