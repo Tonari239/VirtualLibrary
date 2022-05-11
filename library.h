@@ -6,9 +6,9 @@
 
 class Library
 {
-	Book** mBooks;
 	int mCount;
 	int mCapacity;
+	Book** mBooks;
 	char* mAssociatedFile;
 
 	void copy(const Library& other);

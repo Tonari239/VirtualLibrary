@@ -299,24 +299,6 @@ void Library::addBook(const Book& bookToAdd)
 {
 	resize();
 	mBooks[mCount] = new Book(bookToAdd);
-	ofstream bookOutputFile(bookToAdd.getFileName());
-	cout << "Add contents of the book\n";
-
-	if (bookOutputFile)
-	{
-		char line[MAX_LENGTH];
-		cin.ignore();
-		cin.getline(line, MAX_LENGTH);
-		bookOutputFile << line;
-	}
-	try
-	{
-		bookOutputFile.close();
-	}
-	catch (ios::failure)
-	{
-		throw "Problem closing file";
-	}
 	
 	ofstream savedBooksWriting(getFileName(), ios::app);
 	char buffer[MAX_LENGTH];
@@ -324,7 +306,7 @@ void Library::addBook(const Book& bookToAdd)
 	{
 		savedBooksWriting << bookToAdd.getTitle() << endl;
 	}
-
+	++mCount;
 
 	try
 	{
@@ -334,7 +316,7 @@ void Library::addBook(const Book& bookToAdd)
 	{
 		throw "Problem closing file";
 	}
-	++mCount;
+	
 }
 
 void Library::removeBook(const Book& bookToRemove)

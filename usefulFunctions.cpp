@@ -121,20 +121,18 @@ void readByPages(istream& file)
 		cout << buff;
 		++counter;
 	}
-	cout << " "; // printing the pause
+	cout << " "<<endl; // printing the pause
 }
 
 void readSentence(istream& file)
 {
 	char c;
-	if (!file.eof() && (file.peek() != '!' && file.peek() != '?' && file.peek() != '.'))
+	while (!file.eof() && (file.peek() != '!' && file.peek() != '?' && file.peek() != '.'))
 	{
 		file.get(c);
 		cout << c;
 	}
 	file.get(c); // reading the delimiter
-	cout << c;
-	file.get(c); //reading the interval
 	cout << c;
 }
 
@@ -147,6 +145,7 @@ void readBySentences(istream& file)
 	{
 		readSentence(file);
 	}
+	cout << " "<<endl; // printing the pause
 }
 
 char toLowerChar(char& c)
