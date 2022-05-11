@@ -8,9 +8,9 @@ using namespace std;
 
 class UserList
 {
-	User** mUsers;
 	int mCount;
 	int mCapacity;
+	User** mUsers;
 	char* mAssociatedFile;
 
 	void copy(const UserList& other);

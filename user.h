@@ -5,9 +5,10 @@
 using namespace std;
 class User
 {
+	bool mIsAdmin;
 	char* mUserName;
 	char* mPassword;
-	bool mIsAdmin;
+	
 
 	void setStringValuesToNullptr();
 	void copy(const User& other);
