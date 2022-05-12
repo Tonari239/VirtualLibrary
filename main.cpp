@@ -11,24 +11,6 @@ using namespace std;
 #define MAX_LENGTH 1024
 int main(int argc, char** argv)
 {
-	//doctest
-	/*doctest::Context context; context.addFilter("test-case-exclude", "*math*");
-	context.setOption("abort-after", 5);              
-	context.setOption("order-by", "name");            
-
-	context.applyCommandLine(argc, argv);
-	
-	context.setOption("no-breaks", true);     
-
-	int res = context.run(); 
-
-	if (context.shouldExit()) 
-		return res;         
-
-	int client_stuff_return_code = 0;
-	
-
-	return res + client_stuff_return_code;*/
 
 	User admin("admin", "123");
 	admin.setAdminStatus(true);
@@ -100,12 +82,10 @@ int main(int argc, char** argv)
 		else if (strcmp(command, "sort") == 0)
 		{
 			library.sort();
-			
 		}
 		else if (strcmp(command, "find") == 0)
 		{
 			library.find();
-			
 		}
 		else if (strcmp(command, "add") == 0)
 		{

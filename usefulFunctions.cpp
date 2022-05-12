@@ -221,14 +221,3 @@ bool authorize(const char* pass)
 	return isAuthorized;
 }
 
-bool charsAreOnlySpaces(char* buffer, int count)
-{
-	for(int i=0;i<count;i++)
-	{
-		if (buffer[i] != ' ')
-		{
-			return false;
-		}
-	}
-	return true;
-}
