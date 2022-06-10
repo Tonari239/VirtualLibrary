@@ -23,7 +23,6 @@ void Library::free()
 	{
 		delete mBooks[i];
 	}
-	remove(getFileName());
 	delete[] mBooks;
 	delete[] mAssociatedFile;
 }
@@ -103,12 +102,7 @@ Library::Library(Library&& other)
 
 Library::~Library()
 {
-	for (int i = 0; i < mCount; i++)
-	{
-		remove((*mBooks[i]).getFileName());
-		delete mBooks[i];
-	}
-	delete[] mBooks;
+	free();
 }
 
 
