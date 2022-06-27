@@ -376,16 +376,16 @@ void Library::removeBook(const Book& bookToRemove)
 
 void Library::displayBook(const Book& book) const
 {
-	int mode; //1->by pages 2->by sentences;
+	char mode; //1->by pages 2->by sentences;
 	cout <<"Enter \"1\" to read in page mode and \"2\" to read in sentence mode\n";
 	cin >> mode;
-	while (mode!=1 && mode!=2)
+	while (mode!='1' && mode!='2')
 	{
 		cout << "Wrong input! Enter \"1\" or \"2\"";
 		cin >> mode;
 	}
 	ifstream file(book.getFileName());
-	if (mode == 1)
+	if (mode-'0' == 1)
 	{
 		readByPages(file);
 	}

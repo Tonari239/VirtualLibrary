@@ -9,10 +9,11 @@
 
 using namespace std;
 #define MAX_LENGTH 1024
+#define ADMIN_PASSWORD "123"
 int main(int argc, char** argv)
 {
 
-	User admin("admin", "123");
+	User admin("admin", ADMIN_PASSWORD);
 	admin.setAdminStatus(true);
 	UserList registeredUsers((char*)"registeredUsers.txt");
 	registeredUsers.addUser(admin);
@@ -51,9 +52,9 @@ int main(int argc, char** argv)
 			cout << "Enter password: ";
 			char passwordInput[MAX_LENGTH];
 			enterPassword(passwordInput, '*');
-			User u(userNameInput, passwordInput);
+			User user(userNameInput, passwordInput);
 			
-			currentUser=u; 
+			currentUser=user; 
 			if (currentUser == admin)
 			{
 				currentUser.setAdminStatus(true);
@@ -74,9 +75,9 @@ int main(int argc, char** argv)
 			cout << "Enter password: ";
 			char passwordInput[MAX_LENGTH];
 			enterPassword(passwordInput, '*');
-			User u(userNameInput, passwordInput);
+			User user(userNameInput, passwordInput);
 			
-			registeredUsers.addUser(u);
+			registeredUsers.addUser(user);
 			delete[] userNameInput;
 		}
 		else if (strcmp(command, "sort") == 0)

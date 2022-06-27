@@ -22,8 +22,9 @@ void copyString(char*& destination,char* source)
 int sortPredicate()
 {
 	cout << "What criterion would you like to sort by?\n 1.Author 2.Title 3.Rating\n";
-	const char* criteria[] = { "Title","Author","Rating"};
-	char* criterion = criterionInput(criteria, 3);
+	const int criteriaCount = 3;
+	const char* criteria[criteriaCount] = { "Title","Author","Rating"};
+	char* criterion = criterionInput(criteria, criteriaCount);
 	
 	int result;
 	if (strcmp(criterion, "Title") == 0)
@@ -45,8 +46,9 @@ int sortPredicate()
 int findPredicate()
 {
 	cout << "What criterion would you like to search by?\n 1.Title 2.Author 3.ISBN 4.Description\n";
-	const char* criteria[] = { "Title","Author","ISBN","Description"};
-	char* criterion = criterionInput(criteria, 4);
+	const int criteriaCount = 4;
+	const char* criteria[criteriaCount] = { "Title","Author","ISBN","Description"};
+	char* criterion = criterionInput(criteria, criteriaCount);
 
 	int result;
 	if (strcmp(criterion, "Title") == 0)
@@ -72,8 +74,9 @@ int findPredicate()
 bool sortPredicateAscension()
 {
 	cout << "What second criterion would you like to sort by?\n 1.Ascending 2.Descending\n";
-	const char* criteria[] = { "Ascending","Descending"};
-	char* criterion = criterionInput(criteria, 2);
+	const int criteriaCount = 2;
+	const char* criteria[criteriaCount] = { "Ascending","Descending"};
+	char* criterion = criterionInput(criteria, criteriaCount);
 	bool result = strcmp(criterion, "Ascending") == 0;
 	delete[] criterion;
 	return result;
@@ -126,14 +129,14 @@ void readByPages(istream& file)
 
 void readSentence(istream& file)
 {
-	char c;
+	char currChar;
 	while (!file.eof() && (file.peek() != '!' && file.peek() != '?' && file.peek() != '.'))
 	{
-		file.get(c);
-		cout << c;
+		file.get(currChar);
+		cout << currChar;
 	}
-	file.get(c); // reading the delimiter
-	cout << c;
+	file.get(currChar); // reading the delimiter
+	cout << currChar;
 }
 
 void readBySentences(istream& file)
@@ -141,6 +144,11 @@ void readBySentences(istream& file)
 	int sentenceCount;
 	cout << "Enter how many sentences you would like to read.\n";
 	cin >> sentenceCount;
+	while (sentenceCount<=0)
+	{
+		cout <<"Invalid sentence count! Enter how many sentences you would like to read again:" << endl;
+		cin >> sentenceCount;
+	}
 	for (int i = 0; i < sentenceCount; i++)
 	{
 		readSentence(file);
