@@ -43,7 +43,7 @@ int main(int argc, char** argv)
 			char* userNameInput = nullptr;
 			cin.getline(input, MAX_LENGTH);
 			copyString(userNameInput, input);
-			if (registeredUsers.findIndex(userNameInput) == -1)
+			if (registeredUsers.findUserFromFile(userNameInput) == -1)
 			{
 				cout << "No such user exists! Operation failed" << endl;
 				continue;
@@ -123,5 +123,4 @@ int main(int argc, char** argv)
 	} while (strcmp(command, "exit") != 0);
 	delete[] command;
 }
-
 

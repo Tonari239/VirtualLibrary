@@ -24,7 +24,6 @@ void UserList::free()
 		delete mUsers[i];
 	}
 	delete[] mUsers;
-	remove(getAssociatedFile());
 	delete[] mAssociatedFile;
 }
 
@@ -149,6 +148,32 @@ int UserList::findIndex(char* userName) const
 		}
 	}
 	return foundIndex;
+}
+
+int UserList::findUserFromFile(char* userName) const
+{
+	char buffer[MAX_LENGTH];
+	ifstream file(getAssociatedFile());
+	int count = 0;
+	while (file && !file.eof())
+	{
+		file >> buffer;
+		if (strcmp(buffer, userName) == 0)
+		{
+			return count;
+		}
+		++count;
+	}
+	try
+	{
+		file.close();
+	}
+	catch (ios::failure)
+	{
+		throw "Problem closing file";
+	}
+	count = -1;
+	return count;
 }
 
 void UserList::addUser(const User& userToAdd)

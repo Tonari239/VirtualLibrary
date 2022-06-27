@@ -13,7 +13,7 @@ TEST_SUITE("Book tests")
         CHECK(b.getRating() == Rating::UNRATED);
 	}
 
-    TEST_CASE("Contructor with constant char* test")
+    TEST_CASE("Constructor with constant char* test")
     {
         Book b1("Agatha Christie", "ABC murders", "abc.txt", "Murder mystery");
         CHECK(strcmp(b1.getAuthor(), "Agatha Christie") == 0);
@@ -32,7 +32,7 @@ TEST_SUITE("Book tests")
         CHECK(b2.getRating() == Rating::EXCELLENT);
     }
 
-    TEST_CASE("Contructor with dynamic char* test")
+    TEST_CASE("Constructor with dynamic char* test")
     {
         char* author = new char[16];
         strcpy(author, "Agatha Christie");
@@ -86,7 +86,7 @@ TEST_SUITE("Book tests")
         delete[] description;
     }
 
-    TEST_CASE("Copy contructor test")
+    TEST_CASE("Copy constructor test")
     {
         Book b1("Agatha Christie", "ABC murders", "abc.txt", "Murder mystery");
         CHECK(strcmp(b1.getAuthor(), "Agatha Christie") == 0);
@@ -105,7 +105,7 @@ TEST_SUITE("Book tests")
         CHECK(b2.getRating() == Rating::UNRATED);
     }
 
-    TEST_CASE("Move contructor test")
+    TEST_CASE("Move constructor test")
 	{
         Book b1("Agatha Christie", "ABC murders", "abc.txt", "Murder mystery");
         Book b2(std::move(b1));

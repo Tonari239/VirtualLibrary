@@ -131,7 +131,7 @@ TEST_SUITE("Library Tests")
 		//DOCTEST_CHECK_THROWS(l1.find());// check with wrong input
 	}
 
-	TEST_CASE("Remove deletes book name from file with available books")
+	TEST_CASE("Remove deleted book's name from file with available books")
 	{
 		Library l1("file.txt");
 		Book b1("Luke Rhinehart", "The dice man", "dice.txt", "A story of a bored psychiatrist who seeks to break the norm and succumbs to insanity");

@@ -33,6 +33,7 @@ public:
 
 	void addUser(const User& userToAdd);
 	int findIndex(char* userName) const;
+	int findUserFromFile(char* userName) const;
 	friend ostream& operator<<(ostream& out, const UserList& list);
 };
 

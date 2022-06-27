@@ -3,7 +3,7 @@
 
 TEST_SUITE("User tests")
 {
-    TEST_CASE("Default contructor test")
+    TEST_CASE("Default constructor test")
     {
         User u1;
         CHECK(u1.getUsername() == nullptr);
@@ -11,7 +11,7 @@ TEST_SUITE("User tests")
         CHECK(u1.getAdminStatus() == false);
     }
 
-    TEST_CASE("Contructor with constant char* test")
+    TEST_CASE("Constructor with constant char* test")
     {
         User u1("gost");
         CHECK(strcmp(u1.getUsername(),"gost")==0);
@@ -27,7 +27,7 @@ TEST_SUITE("User tests")
         CHECK(u2.getAdminStatus() == false);
     }
 
-    TEST_CASE("Contructor with dynamic char* test")
+    TEST_CASE("Constructor with dynamic char* test")
     {
         char* userName = new char[5];
         strcpy(userName, "gost");
@@ -52,7 +52,7 @@ TEST_SUITE("User tests")
         delete[] password;
     }
 
-    TEST_CASE("Copy contructor test")
+    TEST_CASE("Copy constructor test")
     {
         User u1("guest", "123");
         User u2(u1);
